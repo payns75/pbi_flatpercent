@@ -10,7 +10,7 @@ module powerbi.extensibility.visual {
         // private selectionManager: ISelectionManager;
         // private target: HTMLElement;
         // private updateCount: number;
-        // private settings: VisualSettings;
+        private settings: VisualSettings;
         // private textNode: Text;
 
         // static Config = {
@@ -28,7 +28,12 @@ module powerbi.extensibility.visual {
         }
 
         public update(options: VisualUpdateOptions) {
+            this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             console.log('Visual update', options);
+
+            // var color = options.dataViews[0].metadata.objects.dataPoint.defaultColor;
+            
+            // console.log(color);
 
             let value = +options.dataViews[0].categorical.values[0].values[0] * 100;
             value = Math.ceil(value);
@@ -106,17 +111,17 @@ module powerbi.extensibility.visual {
                 .remove();
         }
 
-        // private static parseSettings(dataView: DataView): VisualSettings {
-        //     return VisualSettings.parse(dataView) as VisualSettings;
-        // }
+        private static parseSettings(dataView: DataView): VisualSettings {
+            return VisualSettings.parse(dataView) as VisualSettings;
+        }
 
         /** 
          * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the 
          * objects and properties you want to expose to the users in the property pane.
          * 
          */
-        // public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
-        //     return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
-        // }
+        public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
+            return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+        }
     }
 }

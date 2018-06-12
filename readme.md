@@ -1,5 +1,5 @@
 
-
+pbiviz new myTestVisual
 pbiviz start
 pbiviz package
 

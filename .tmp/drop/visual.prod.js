@@ -591,12 +591,6 @@ var powerbi;
             (function (flatpercent4542516F697944D4BA75699C96A7D2E5) {
                 "use strict";
                 var Visual = (function () {
-                    // private percentcontainer: d3.Selection<SVGElement>;
-                    // private host: IVisualHost;
-                    // private selectionManager: ISelectionManager;
-                    // private target: HTMLElement;
-                    // private updateCount: number;
-                    // private settings: VisualSettings;
                     // private textNode: Text;
                     // static Config = {
                     //     xScalePadding: 0.1,
@@ -611,7 +605,10 @@ var powerbi;
                         this.g = this.svg.append('g').classed('percenter', true);
                     }
                     Visual.prototype.update = function (options) {
+                        this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
                         console.log('Visual update', options);
+                        // var color = options.dataViews[0].metadata.objects.dataPoint.defaultColor;
+                        // console.log(color);
                         var value = +options.dataViews[0].categorical.values[0].values[0] * 100;
                         value = Math.ceil(value);
                         var _this = this;
@@ -670,6 +667,17 @@ var powerbi;
                         });
                         dpath.exit()
                             .remove();
+                    };
+                    Visual.parseSettings = function (dataView) {
+                        return flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.parse(dataView);
+                    };
+                    /**
+                     * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
+                     * objects and properties you want to expose to the users in the property pane.
+                     *
+                     */
+                    Visual.prototype.enumerateObjectInstances = function (options) {
+                        return flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.getDefault(), options);
                     };
                     return Visual;
                 }());
