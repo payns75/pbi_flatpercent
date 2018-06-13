@@ -8,6 +8,7 @@
 # TODO
 - Activer/désactiver animations ?
 - Animation constante ? Paramètres de décalage d'animation si plusieurs contrôle ?
+- Ne pas lancer l'animation si la valeur ne change pas.
 - Titre custom & style du titre
 - Désactiver certaines otptions par défaut ?
 - Déterminer la taille du contour du cercle ?
@@ -23,7 +24,8 @@
 - Revoir le fichier de configuration pbiviz.json
 - Voir l'utilisation des couleurs par défaut
 - Publier sur le store -> quid de la licence / propriétaire
+- Bug, on ne peut pas choisir une font-size > 40
 
 # Liens utiles
-https://tsmatz.wordpress.com/2016/09/27/power-bi-custom-visuals-programming/
-https://github.com/Microsoft/PowerBI-visuals#developing-your-first-powerbi-visual
+- https://tsmatz.wordpress.com/2016/09/27/power-bi-custom-visuals-programming/
+- https://github.com/Microsoft/PowerBI-visuals#developing-your-first-powerbi-visual
