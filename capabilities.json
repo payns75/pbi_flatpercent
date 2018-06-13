@@ -1,19 +1,14 @@
 {
     "dataRoles": [
         {
-            "displayName": "Category Data",
-            "name": "category",
-            "kind": "Grouping"
-        },
-        {
             "displayName": "Measure Data",
             "name": "measure",
             "kind": "Measure"
         }
     ],
     "objects": {
-        "dataPoint": {
-            "displayName": "Data colors",
+        "flatpercent": {
+            "displayName": "Percent options",
             "properties": {
                 "defaultColor": {
                     "displayName": "Default color",
@@ -25,26 +20,14 @@
                         }
                     }
                 },
-                "showAllDataPoints": {
-                    "displayName": "Show all",
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "fill": {
-                    "displayName": "Fill",
+                "emptyColor": {
+                    "displayName": "Empty color",
                     "type": {
                         "fill": {
                             "solid": {
                                 "color": true
                             }
                         }
-                    }
-                },
-                "fillRule": {
-                    "displayName": "Color saturation",
-                    "type": {
-                        "fill": {}
                     }
                 },
                 "fontSize": {
@@ -54,21 +37,26 @@
                             "fontSize": true
                         }
                     }
+                },
+                "multiplier": {
+                    "displayName": "Multiplier",
+                    "type": {
+                        "bool": true
+                    }
                 }
             }
         }
     },
     "dataViewMappings": [
         {
-            "categorical": {
-                "categories": {
-                    "for": {
-                        "in": "category"
-                    },
-                    "dataReductionAlgorithm": {
-                        "top": {}
+            "conditions": [
+                {
+                    "measure": {
+                        "max": 1
                     }
-                },
+                }
+            ],
+            "categorical": {
                 "values": {
                     "select": [
                         {

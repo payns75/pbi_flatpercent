@@ -3,23 +3,8 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
     export class Visual implements IVisual {
         private svg: d3.Selection<SVGElement>;
         private g: d3.Selection<SVGElement>;
-        private margin = { top: 10, right: 10, bottom: 10, left: 10 };
-
-        // private percentcontainer: d3.Selection<SVGElement>;
-        // private host: IVisualHost;
-        // private selectionManager: ISelectionManager;
-        // private target: HTMLElement;
-        // private updateCount: number;
         private settings: VisualSettings;
-        // private textNode: Text;
-
-        // static Config = {
-        //     xScalePadding: 0.1,
-        //     solidOpacity: 1,
-        //     transparentOpacity: 0.5,
-        //     xAxisFontMultiplier: 0.04,
-        // };
-
+        private margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
         constructor(options: VisualConstructorOptions) {
             console.log('Visual constructor', options);
@@ -29,13 +14,17 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-            console.log('Visual update', options);
+            var color = this.settings.flatpercent.defaultColor;
+            var emptycolor = this.settings.flatpercent.emptyColor;
+            var fontsize = this.settings.flatpercent.fontSize;
+            var muliplier = this.settings.flatpercent.multiplier;
 
-            // var color = options.dataViews[0].metadata.objects.dataPoint.defaultColor;
-            
-            // console.log(color);
+            let value = +options.dataViews[0].categorical.values[0].values[0];
 
-            let value = +options.dataViews[0].categorical.values[0].values[0] * 100;
+            if(muliplier){
+                value *= 100;
+            }
+
             value = Math.ceil(value);
 
             var _this = this;
@@ -64,22 +53,16 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
                 .innerRadius(radius * 0.85);
 
             const pie = d3.layout.pie().sort(null)
-
-            // _this.g
-            //     .append("rect")
-            //     .attr("width", gWidth)
-            //     .attr("height", gHeight)
-            //     .attr("fill", "pink");
-
+            
             _this.g.selectAll('.textvalue').remove();
 
             _this.g.append('text')
-                .style('font-size', '40px')
+                .style('font-size', `${fontsize}px`)
                 .attr("x", gWidth / 2)
                 .attr("y", gHeight / 2)
                 .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .style('fill', "#E91E63")
+                .style('fill', color)
                 .attr('class', 'textvalue')
                 .text(`${value}%`);
 
@@ -87,9 +70,6 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
 
             const basearc = this.g.append('g')
                 .attr('class', 'arcvalue')
-                // .attr('width', 230)
-                // .attr('height', 130)
-                //.append('g')
                 .attr('transform', `translate(${gWidth / 2},${gHeight / 2})`);
 
             const dpath = basearc.selectAll('path')
@@ -97,8 +77,8 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
 
             const path = dpath
                 .enter().append('path')
-                .attr('fill', (d, i) => i ? 'transparent' : '#E91E63')
-                .transition().delay((d, i) => i * 500).duration(500)
+                .attr('fill', (d, i) => i ? emptycolor : color)
+                .transition().delay((d, i) => i * 100).duration(500)
                 .attrTween('d', (d) => {
                     const i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
                     return (t) => {
@@ -111,15 +91,15 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
                 .remove();
         }
 
-        private static parseSettings(dataView: DataView): VisualSettings {
-            return VisualSettings.parse(dataView) as VisualSettings;
-        }
-
         /** 
          * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the 
          * objects and properties you want to expose to the users in the property pane.
          * 
          */
+        private static parseSettings(dataView: DataView): VisualSettings {
+            return VisualSettings.parse(dataView) as VisualSettings;
+        }
+        
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
             return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
         }
