@@ -678,8 +678,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.flatpercent4542516F697944D4BA75699C96A7D2E5_DEBUG = {
-                name: 'flatpercent4542516F697944D4BA75699C96A7D2E5_DEBUG',
+            plugins.flatpercent4542516F697944D4BA75699C96A7D2E5 = {
+                name: 'flatpercent4542516F697944D4BA75699C96A7D2E5',
                 displayName: 'flatpercent',
                 class: 'Visual',
                 version: '1.0.0',
