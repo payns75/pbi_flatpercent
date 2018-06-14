@@ -37,12 +37,9 @@ module powerbi.extensibility.visual {
                 height: options.viewport.height,
                 width: options.viewport.width
             });
-            var gHeight = options.viewport.height
-                - _this.margin.top
-                - _this.margin.bottom;
-            var gWidth = options.viewport.width
-                - _this.margin.right
-                - _this.margin.left;
+
+            var gHeight = options.viewport.height - _this.margin.top - _this.margin.bottom;
+            var gWidth = options.viewport.width - _this.margin.right - _this.margin.left;
 
             _this.gcontainer.attr({
                 height: gHeight,
