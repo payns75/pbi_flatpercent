@@ -35,7 +35,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
     export class flatPercentSettings {
       public defaultColor: string = "#E91E63";
       public emptyColor: string = "#fff";
-      public fontSize: number = 40;
+      public fontSize: number = 13;
       public multiplier: boolean = true;
      }
 

@@ -565,7 +565,7 @@ var powerbi;
                     function flatPercentSettings() {
                         this.defaultColor = "#E91E63";
                         this.emptyColor = "#fff";
-                        this.fontSize = 40;
+                        this.fontSize = 13;
                         this.multiplier = true;
                     }
                     return flatPercentSettings;
@@ -586,24 +586,25 @@ var powerbi;
                 "use strict";
                 var Visual = (function () {
                     function Visual(options) {
-                        this.margin = { top: 10, right: 10, bottom: 10, left: 10 };
-                        console.log('Visual constructor', options);
+                        this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
+                        this.previousvalue = null;
                         this.svg = d3.select(options.element).append('svg');
-                        this.g = this.svg.append('g').classed('percenter', true);
+                        this.gcontainer = this.svg.append('g').classed('percenter', true);
                     }
                     Visual.prototype.update = function (options) {
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-                        var color = this.settings.flatpercent.defaultColor;
-                        var emptycolor = this.settings.flatpercent.emptyColor;
-                        var fontsize = this.settings.flatpercent.fontSize;
-                        var muliplier = this.settings.flatpercent.multiplier;
+                        var _this = this;
+                        var params = {
+                            defaultColor: _this.settings.flatpercent.defaultColor,
+                            emptyColor: _this.settings.flatpercent.emptyColor,
+                            fontSize: _this.settings.flatpercent.fontSize,
+                            multiplier: _this.settings.flatpercent.multiplier
+                        };
                         var value = +options.dataViews[0].categorical.values[0].values[0];
-                        if (muliplier) {
+                        if (params.multiplier) {
                             value *= 100;
                         }
                         value = Math.ceil(value);
-                        var _this = this;
-                        // get height and width from viewport
                         _this.svg.attr({
                             height: options.viewport.height,
                             width: options.viewport.width
@@ -614,45 +615,51 @@ var powerbi;
                         var gWidth = options.viewport.width
                             - _this.margin.right
                             - _this.margin.left;
-                        _this.g.attr({
+                        _this.gcontainer.attr({
                             height: gHeight,
                             width: gWidth
                         });
-                        _this.g.attr('transform', 'translate(' + _this.margin.left + ',' + _this.margin.top + ')');
+                        _this.gcontainer.attr('transform', 'translate(' + _this.margin.left + ',' + _this.margin.top + ')');
                         var radius = Math.min(gWidth, gHeight) / 2;
                         var arc = d3.svg.arc()
-                            .outerRadius(radius * 0.9)
-                            .innerRadius(radius * 0.85);
-                        var pie = d3.layout.pie().sort(null);
-                        _this.g.selectAll('.textvalue').remove();
-                        _this.g.append('text')
-                            .style('font-size', fontsize + "px")
-                            .attr("x", gWidth / 2)
-                            .attr("y", gHeight / 2)
-                            .attr('text-anchor', 'middle')
-                            .attr('alignment-baseline', 'middle')
-                            .style('fill', color)
-                            .attr('class', 'textvalue')
-                            .text(value + "%");
-                        _this.g.selectAll('.arcvalue').remove();
-                        var basearc = this.g.append('g')
+                            .outerRadius(radius)
+                            .innerRadius(radius * 0.96);
+                        var pie = d3.layout.pie();
+                        _this.gcontainer.selectAll('.arcvalue').remove();
+                        var basearc = this.gcontainer.append('g')
                             .attr('class', 'arcvalue')
                             .attr('transform', "translate(" + gWidth / 2 + "," + gHeight / 2 + ")");
                         var dpath = basearc.selectAll('path')
                             .data(pie([value, 100 - value]));
                         var path = dpath
                             .enter().append('path')
-                            .attr('fill', function (d, i) { return i ? emptycolor : color; })
-                            .transition().delay(function (d, i) { return i * 100; }).duration(500)
-                            .attrTween('d', function (d) {
-                            var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
-                            return function (t) {
-                                d.endAngle = i(t);
-                                return arc(d);
-                            };
-                        });
+                            .attr('fill', function (d, i) { return i ? params.emptyColor : params.defaultColor; });
+                        if (value !== this.previousvalue) {
+                            path.transition().delay(function (d, i) { return i * 500; }).duration(500)
+                                .attrTween('d', function (d) {
+                                var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+                                return function (t) {
+                                    d.endAngle = i(t);
+                                    return arc(d);
+                                };
+                            });
+                            this.previousvalue = value;
+                        }
+                        else {
+                            path.attr("d", arc);
+                        }
                         dpath.exit()
                             .remove();
+                        _this.gcontainer.selectAll('.textvalue').remove();
+                        _this.gcontainer.append('text')
+                            .style('font-size', params.fontSize + "vh")
+                            .attr("x", gWidth / 2)
+                            .attr("y", gHeight / 2)
+                            .attr('text-anchor', 'middle')
+                            .attr('alignment-baseline', 'middle')
+                            .style('fill', params.defaultColor)
+                            .attr('class', 'textvalue')
+                            .text(value + "%");
                     };
                     /**
                      * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
