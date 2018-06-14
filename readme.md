@@ -25,6 +25,7 @@
 - Ajout d'une bulle d'aide de description
 - Arrondi supperieur ou inferieur, et décimals ?
 - Revoir police text roboto trop grossière ?
+- Downgrader pour etre compatible avec les anciennes versions locales (ex bpri)
 
 # Liens utiles
 - https://tsmatz.wordpress.com/2016/09/27/power-bi-custom-visuals-programming/
