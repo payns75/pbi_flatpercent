@@ -516,31 +516,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-/*
- *  Power BI Visualizations
- *
- *  Copyright (c) Microsoft Corporation
- *  All rights reserved.
- *  MIT License
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the ""Software""), to deal
- *  in the Software without restriction, including without limitation the rights
- *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
- *
- *  The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
- *
- *  THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- *  THE SOFTWARE.
- */
 var powerbi;
 (function (powerbi) {
     var extensibility;
@@ -561,12 +536,27 @@ var powerbi;
                     return VisualSettings;
                 }(DataViewObjectsParser));
                 flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings = VisualSettings;
+                var Margin = (function () {
+                    function Margin() {
+                        this.top = 20;
+                        this.right = 20;
+                        this.bottom = 20;
+                        this.left = 20;
+                    }
+                    return Margin;
+                }());
+                flatpercent4542516F697944D4BA75699C96A7D2E5.Margin = Margin;
+                function parseSettings(dataView) {
+                    return VisualSettings.parse(dataView);
+                }
+                flatpercent4542516F697944D4BA75699C96A7D2E5.parseSettings = parseSettings;
                 var flatPercentSettings = (function () {
                     function flatPercentSettings() {
                         this.defaultColor = "#E91E63";
                         this.emptyColor = "#fff";
                         this.fontSize = 13;
                         this.multiplier = true;
+                        this.arcsize = 4;
                     }
                     return flatPercentSettings;
                 }());
@@ -586,54 +576,76 @@ var powerbi;
                 "use strict";
                 var Visual = (function () {
                     function Visual(options) {
-                        this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
-                        this.previousvalue = null;
                         this.svg = d3.select(options.element).append('svg');
                         this.gcontainer = this.svg.append('g').classed('percenter', true);
+                        this.flatpercent = new flatpercent4542516F697944D4BA75699C96A7D2E5.FlatPercent(this.gcontainer);
                     }
                     Visual.prototype.update = function (options) {
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-                        var _this = this;
-                        var params = {
-                            defaultColor: _this.settings.flatpercent.defaultColor,
-                            emptyColor: _this.settings.flatpercent.emptyColor,
-                            fontSize: _this.settings.flatpercent.fontSize,
-                            multiplier: _this.settings.flatpercent.multiplier
-                        };
                         var value = +options.dataViews[0].categorical.values[0].values[0];
-                        if (params.multiplier) {
-                            value *= 100;
-                        }
-                        value = Math.ceil(value);
-                        _this.svg.attr({
+                        this.svg.attr({
                             height: options.viewport.height,
                             width: options.viewport.width
                         });
-                        var gHeight = options.viewport.height
-                            - _this.margin.top
-                            - _this.margin.bottom;
-                        var gWidth = options.viewport.width
-                            - _this.margin.right
-                            - _this.margin.left;
-                        _this.gcontainer.attr({
-                            height: gHeight,
-                            width: gWidth
-                        });
-                        _this.gcontainer.attr('transform', 'translate(' + _this.margin.left + ',' + _this.margin.top + ')');
-                        var radius = Math.min(gWidth, gHeight) / 2;
+                        this.flatpercent.Update(options, value);
+                    };
+                    /**
+                     * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
+                     * objects and properties you want to expose to the users in the property pane.
+                     *
+                     */
+                    Visual.parseSettings = function (dataView) {
+                        return flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.parse(dataView);
+                    };
+                    Visual.prototype.enumerateObjectInstances = function (options) {
+                        return flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.getDefault(), options);
+                    };
+                    return Visual;
+                }());
+                flatpercent4542516F697944D4BA75699C96A7D2E5.Visual = Visual;
+            })(flatpercent4542516F697944D4BA75699C96A7D2E5 = visual.flatpercent4542516F697944D4BA75699C96A7D2E5 || (visual.flatpercent4542516F697944D4BA75699C96A7D2E5 = {}));
+        })(visual = extensibility.visual || (extensibility.visual = {}));
+    })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
+})(powerbi || (powerbi = {}));
+var powerbi;
+(function (powerbi) {
+    var extensibility;
+    (function (extensibility) {
+        var visual;
+        (function (visual) {
+            var flatpercent4542516F697944D4BA75699C96A7D2E5;
+            (function (flatpercent4542516F697944D4BA75699C96A7D2E5) {
+                "use strict";
+                var FlatPercent = (function () {
+                    function FlatPercent(gcontainer, margin) {
+                        if (margin === void 0) { margin = null; }
+                        this.gcontainer = gcontainer;
+                        this.margin = margin;
+                        this.previousvalue = null;
+                        if (!this.margin) {
+                            this.margin = new flatpercent4542516F697944D4BA75699C96A7D2E5.Margin();
+                        }
+                    }
+                    FlatPercent.prototype.Update = function (options, value) {
+                        var init = this.initContainer(options);
+                        if (init.params.multiplier) {
+                            value *= 100;
+                        }
+                        value = Math.ceil(value);
+                        var radius = Math.min(init.gWidth, init.gHeight) / 2;
                         var arc = d3.svg.arc()
                             .outerRadius(radius)
-                            .innerRadius(radius * 0.96);
+                            .innerRadius(radius * (100 - init.params.arcsize) / 100);
                         var pie = d3.layout.pie();
-                        _this.gcontainer.selectAll('.arcvalue').remove();
+                        this.gcontainer.selectAll('.arcvalue').remove();
                         var basearc = this.gcontainer.append('g')
                             .attr('class', 'arcvalue')
-                            .attr('transform', "translate(" + gWidth / 2 + "," + gHeight / 2 + ")");
+                            .attr('transform', "translate(" + init.gWidth / 2 + "," + init.gHeight / 2 + ")");
                         var dpath = basearc.selectAll('path')
                             .data(pie([value, 100 - value]));
                         var path = dpath
                             .enter().append('path')
-                            .attr('fill', function (d, i) { return i ? params.emptyColor : params.defaultColor; });
+                            .attr('fill', function (d, i) { return i ? init.params.emptyColor : init.params.defaultColor; });
                         if (value !== this.previousvalue) {
                             path.transition().delay(function (d, i) { return i * 500; }).duration(500)
                                 .attrTween('d', function (d) {
@@ -650,31 +662,38 @@ var powerbi;
                         }
                         dpath.exit()
                             .remove();
-                        _this.gcontainer.selectAll('.textvalue').remove();
-                        _this.gcontainer.append('text')
-                            .style('font-size', params.fontSize + "vh")
-                            .attr("x", gWidth / 2)
-                            .attr("y", gHeight / 2)
+                        this.gcontainer.selectAll('.textvalue').remove();
+                        this.gcontainer.append('text')
+                            .style('font-size', init.params.fontSize + "vh")
+                            .attr("x", init.gWidth / 2)
+                            .attr("y", init.gHeight / 2)
                             .attr('text-anchor', 'middle')
                             .attr('alignment-baseline', 'middle')
-                            .style('fill', params.defaultColor)
+                            .style('fill', init.params.defaultColor)
                             .attr('class', 'textvalue')
                             .text(value + "%");
                     };
-                    /**
-                     * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
-                     * objects and properties you want to expose to the users in the property pane.
-                     *
-                     */
-                    Visual.parseSettings = function (dataView) {
-                        return flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.parse(dataView);
+                    FlatPercent.prototype.initContainer = function (options) {
+                        var settings = flatpercent4542516F697944D4BA75699C96A7D2E5.parseSettings(options && options.dataViews && options.dataViews[0]);
+                        var params = {
+                            defaultColor: settings.flatpercent.defaultColor,
+                            emptyColor: settings.flatpercent.emptyColor,
+                            fontSize: settings.flatpercent.fontSize,
+                            multiplier: settings.flatpercent.multiplier,
+                            arcsize: settings.flatpercent.arcsize
+                        };
+                        var gHeight = options.viewport.height - this.margin.top - this.margin.bottom;
+                        var gWidth = options.viewport.width - this.margin.right - this.margin.left;
+                        this.gcontainer.attr({
+                            height: gHeight,
+                            width: gWidth
+                        });
+                        this.gcontainer.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+                        return { params: params, gHeight: gHeight, gWidth: gWidth };
                     };
-                    Visual.prototype.enumerateObjectInstances = function (options) {
-                        return flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E5.VisualSettings.getDefault(), options);
-                    };
-                    return Visual;
+                    return FlatPercent;
                 }());
-                flatpercent4542516F697944D4BA75699C96A7D2E5.Visual = Visual;
+                flatpercent4542516F697944D4BA75699C96A7D2E5.FlatPercent = FlatPercent;
             })(flatpercent4542516F697944D4BA75699C96A7D2E5 = visual.flatpercent4542516F697944D4BA75699C96A7D2E5 || (visual.flatpercent4542516F697944D4BA75699C96A7D2E5 = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));

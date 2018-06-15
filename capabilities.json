@@ -43,6 +43,12 @@
                     "type": {
                         "bool": true
                     }
+                },
+                "arcsize": {
+                    "displayName": "arcsize",
+                    "type": {
+                        "numeric": true
+                    }
                 }
             }
         }

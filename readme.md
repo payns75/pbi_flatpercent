@@ -10,8 +10,7 @@
 - Animation constante ? Paramètres de décalage d'animation si plusieurs contrôle ?
 - Titre custom & style du titre + font Fira
 - Désactiver certaines otptions par défaut ?
-- Déterminer la taille du contour du cercle ?
-- Quid valeur null
+- Quid valeur null ?
 - Quid valeurs négatives
 - Option afficher text interieur option ?
 - Options afficher ou non unité % / autre
@@ -24,8 +23,9 @@
 - Publier sur le store -> quid de la licence / propriétaire
 - Ajout d'une bulle d'aide de description
 - Arrondi supperieur ou inferieur, et décimals ?
-- Revoir police text roboto trop grossière ?
+- Revoir police text roboto trop grossière ? --> Liste déroulante d'option de choix ?
 - Downgrader pour etre compatible avec les anciennes versions locales (ex bpri)
+- Pour les paramètres voir comment mettre des valeur min/max, listes déroulantes, descriptions etc
 
 # Liens utiles
 - https://tsmatz.wordpress.com/2016/09/27/power-bi-custom-visuals-programming/
