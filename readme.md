@@ -1,9 +1,12 @@
 # Installation / packages
 - npm i
-- pbiviz new myTestVisual
 - pbiviz start
+
+## Créer un package
 - pbiviz package
 
+## Créer un projet (pour info)
+- pbiviz new myTestVisual
 
 # TODO
 - Activer/désactiver animations ?
