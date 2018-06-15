@@ -1,4 +1,4 @@
-module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5  {
+module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6  {
   "use strict";
   import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
 

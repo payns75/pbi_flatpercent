@@ -1,1 +1,24 @@
-@font-face{font-family:'Fira Sans';font-style:normal;font-weight:400;src:local('Fira Sans Regular'),local('FiraSans-Regular'),url(https://fonts.gstatic.com/s/firasans/v8/va9E4kDNxMZdWfMOD5Vvl4jO.ttf) format('truetype')}@font-face{font-family:'Montserrat';font-style:normal;font-weight:400;src:local('Montserrat Regular'),local('Montserrat-Regular'),url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype')}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto'),local('Roboto-Regular'),url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype')}.visual-flatpercent4542516F697944D4BA75699C96A7D2E5 .visualTitle{font-family:'Fira Sans',sans-serif;font-size:12px;height:20px}.visual-flatpercent4542516F697944D4BA75699C96A7D2E5 .textvalue{font-family:'Roboto',sans-serif}
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Fira Sans Regular'), local('FiraSans-Regular'), url(https://fonts.gstatic.com/s/firasans/v8/va9E4kDNxMZdWfMOD5Vvl4jO.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+}
+.visual-flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG .titlevalue {
+  font-family: 'Fira Sans', sans-serif;
+}
+.visual-flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG .textvalue {
+  font-family: 'Roboto', sans-serif;
+}

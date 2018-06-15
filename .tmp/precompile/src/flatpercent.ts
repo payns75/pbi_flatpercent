@@ -1,8 +1,8 @@
-module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5  {
+module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6  {
     "use strict";
 
     export class FlatPercent {
-        constructor(private gcontainer: d3.Selection<SVGElement>, private margin: Margin = null) {
+        constructor(private gcontainer: d3.Selection<SVGElement>, public margin: Margin = null) {
             if (!this.margin) {
                 this.margin = new Margin();
             }
@@ -12,53 +12,62 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
 
         public Update(options: VisualUpdateOptions, value: number) {
             const init = this.initContainer(options);
-            
+            this.gcontainer.selectAll('.arcvalue').remove();
+            this.gcontainer.selectAll('.textvalue').remove();
+
             if (init.params.multiplier) {
                 value *= 100;
             }
 
             value = Math.ceil(value);
 
-            const radius = Math.min(init.gWidth, init.gHeight) / 2;
-            const arc = d3.svg.arc()
-                .outerRadius(radius)
-                .innerRadius(radius * (100-init.params.arcsize)/100);
+            if (value && value > 0) {
+                const radius = Math.min(init.gWidth, init.gHeight) / 2;
+                const arc = d3.svg.arc()
+                    .outerRadius(radius)
+                    .innerRadius(radius * (100 - init.params.arcsize) / 100);
 
-            const pie = d3.layout.pie();
+                const pie = d3.layout.pie().sort(null);
 
-            this.gcontainer.selectAll('.arcvalue').remove();
+                const basearc = this.gcontainer.append('g')
+                    .attr('class', 'arcvalue')
+                    .attr('transform', `translate(${init.gWidth / 2},${init.gHeight / 2})`);
 
-            const basearc = this.gcontainer.append('g')
-                .attr('class', 'arcvalue')
-                .attr('transform', `translate(${init.gWidth / 2},${init.gHeight / 2})`);
+                let values = [value > 100 ? 100 : value];
 
-            const dpath = basearc.selectAll('path')
-                .data(pie([value, 100 - value]));
+                if (value < 100) {
+                    values.push(100 - value);
+                }
 
-            const path = dpath
-                .enter().append('path')
-                .attr('fill', (d, i) => i ? init.params.emptyColor : init.params.defaultColor);
+                const dpath = basearc.selectAll('path')
+                    .data(pie(values));
 
-            if (value !== this.previousvalue) {
-                path.transition().delay((d, i) => i * 500).duration(500)
-                    .attrTween('d', (d) => {
-                        const i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
-                        return (t) => {
-                            d.endAngle = i(t);
-                            return arc(<any>d);
-                        };
-                    });
-                this.previousvalue = value;
-            } else {
-                path.attr("d", <any>arc);
+                const path = dpath
+                    .enter().append('path')
+                    .attr('fill', (d, i) => i ? init.params.emptyColor : init.params.defaultColor);
+
+                if (value !== this.previousvalue) {
+                    path.transition().delay((d, i) => i * 500).duration(500)
+                        .attrTween('d', (d) => {
+                            const i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+                            return (t) => {
+                                d.endAngle = i(t);
+                                return arc(<any>d);
+                            };
+                        });
+
+                } else {
+                    path.attr("d", <any>arc);
+                }
+
+                dpath.exit()
+                    .remove();
             }
 
-            dpath.exit()
-                .remove();
+            this.previousvalue = value;
 
-            this.gcontainer.selectAll('.textvalue').remove();
 
-            this.gcontainer.append('text')
+            this.gcontainer.append('g').append('text')
                 .style('font-size', `${init.params.fontSize}vh`)
                 .attr("x", init.gWidth / 2)
                 .attr("y", init.gHeight / 2)

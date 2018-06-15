@@ -1,4 +1,4 @@
-module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5  {
+module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6  {
     "use strict";
     export class Visual implements IVisual {
         private settings: VisualSettings;
@@ -9,19 +9,32 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E5 
         constructor(options: VisualConstructorOptions) {
             this.svg = d3.select(options.element).append('svg');
             this.gcontainer = this.svg.append('g').classed('percenter', true);
-            this.flatpercent = new FlatPercent(this.gcontainer);
+            this.flatpercent = new FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
         }
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let value = +options.dataViews[0].categorical.values[0].values[0];
-            
+
             this.svg.attr({
                 height: options.viewport.height,
                 width: options.viewport.width
             });
 
             this.flatpercent.Update(options, value);
+
+            this.svg.selectAll('.titlevalue').remove();
+            this.svg.append('g').append('text')
+                .style('font-size', '5vh')
+                .attr("x", options.viewport.width / 2)
+                .attr("y", 20)
+                .attr('text-anchor', 'middle')
+                // .attr('alignment-baseline', 'middle')
+                .style('fill', 'blue')
+                .attr('class', 'titlevalue')
+                .text('titre du rapport');
+
+
         }
 
         /** 
