@@ -12,7 +12,6 @@
 - Activer/désactiver animations ?
 - Animation constante ? Paramètres de décalage d'animation si plusieurs contrôle ?
 - Titre custom & style du titre + font Fira
-- Désactiver certaines otptions par défaut ?
 - Quid valeur null ?
 - Quid valeurs négatives
 - Option afficher text interieur option ?
