@@ -68,7 +68,7 @@ module powerbi.extensibility.visual {
 
 
             this.gcontainer.append('g').append('text')
-                .style('font-size', `${init.params.fontSize}vh`)
+                .style('font-size', `${init.params.fontSize}vw`)
                 .attr("x", init.gWidth / 2)
                 .attr("y", init.gHeight / 2)
                 .attr('text-anchor', 'middle')

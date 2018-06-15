@@ -68,7 +68,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
 
 
             this.gcontainer.append('g').append('text')
-                .style('font-size', `${init.params.fontSize}vh`)
+                .style('font-size', `${init.params.fontSize}vw`)
                 .attr("x", init.gWidth / 2)
                 .attr("y", init.gHeight / 2)
                 .attr('text-anchor', 'middle')

@@ -25,7 +25,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
 
             this.svg.selectAll('.titlevalue').remove();
             this.svg.append('g').append('text')
-                .style('font-size', '5vh')
+                .style('font-size', '5vw')
                 .attr("x", options.viewport.width / 2)
                 .attr("y", 20)
                 .attr('text-anchor', 'middle')

@@ -590,7 +590,7 @@ var powerbi;
                         this.flatpercent.Update(options, value);
                         this.svg.selectAll('.titlevalue').remove();
                         this.svg.append('g').append('text')
-                            .style('font-size', '5vh')
+                            .style('font-size', '5vw')
                             .attr("x", options.viewport.width / 2)
                             .attr("y", 20)
                             .attr('text-anchor', 'middle')
@@ -679,7 +679,7 @@ var powerbi;
                         }
                         this.previousvalue = value;
                         this.gcontainer.append('g').append('text')
-                            .style('font-size', init.params.fontSize + "vh")
+                            .style('font-size', init.params.fontSize + "vw")
                             .attr("x", init.gWidth / 2)
                             .attr("y", init.gHeight / 2)
                             .attr('text-anchor', 'middle')
