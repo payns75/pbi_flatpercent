@@ -2,14 +2,14 @@
   "visual": {
     "name": "flatpercent",
     "displayName": "flatpercent",
-    "guid": "flatpercent4542516F697944D4BA75699C96A7D2E5",
+    "guid": "flatpercent4542516F697944D4BA75699C96A7D2E6",
     "visualClassName": "Visual",
     "version": "1.0.0",
     "description": "",
     "supportUrl": "",
     "gitHubUrl": ""
   },
-  "apiVersion": "1.12.0",
+  "apiVersion": "1.8.0",
   "author": {
     "name": "",
     "email": ""
