@@ -4,9 +4,29 @@
             "displayName": "Measure Data",
             "name": "measure",
             "kind": "Measure"
+        },
+        {
+            "displayName": "Low Data",
+            "name": "measurevorlow",
+            "kind": "Measure"
         }
     ],
     "objects": {
+        "title": {
+            "displayName": "Title",
+            "properties": {
+                "defaultColor": {
+                    "displayName": "Default color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "flatpercent": {
             "displayName": "Percent options",
             "properties": {
