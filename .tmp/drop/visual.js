@@ -531,6 +531,7 @@ var powerbi;
                     function VisualSettings() {
                         var _this = _super !== null && _super.apply(this, arguments) || this;
                         _this.flatpercent = new flatPercentSettings();
+                        _this.vor = new VorSettings();
                         return _this;
                     }
                     return VisualSettings;
@@ -553,6 +554,7 @@ var powerbi;
                 var flatPercentSettings = (function () {
                     function flatPercentSettings() {
                         this.defaultColor = "#E91E63";
+                        this.textcolor = "#E91E63";
                         this.emptyColor = "#fff";
                         this.fontSize = 13;
                         this.multiplier = true;
@@ -561,6 +563,19 @@ var powerbi;
                     return flatPercentSettings;
                 }());
                 flatpercent4542516F697944D4BA75699C96A7D2E6.flatPercentSettings = flatPercentSettings;
+                var VorSettings = (function () {
+                    function VorSettings() {
+                        this.Activated = false;
+                        this.Lowcolor = "red";
+                        this.MiddleColor = "orange";
+                        this.HighColor = "green";
+                        this.FixedValues = true;
+                        this.FirstValue = 25;
+                        this.SecondValue = 75;
+                    }
+                    return VorSettings;
+                }());
+                flatpercent4542516F697944D4BA75699C96A7D2E6.VorSettings = VorSettings;
             })(flatpercent4542516F697944D4BA75699C96A7D2E6 = visual.flatpercent4542516F697944D4BA75699C96A7D2E6 || (visual.flatpercent4542516F697944D4BA75699C96A7D2E6 = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
@@ -581,6 +596,7 @@ var powerbi;
                         this.flatpercent = new flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
                     }
                     Visual.prototype.update = function (options) {
+                        console.log(options);
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
                         var value = +options.dataViews[0].categorical.values[0].values[0];
                         var titletext = options.dataViews[0].categorical.values[0].source.displayName;
@@ -700,7 +716,7 @@ var powerbi;
                             .attr("y", init.gHeight / 2)
                             .attr('text-anchor', 'middle')
                             .attr('alignment-baseline', 'middle')
-                            .style('fill', init.params.defaultColor)
+                            .style('fill', init.params.textcolor)
                             .attr('class', 'textvalue')
                             .text(value + "%");
                     };
@@ -711,7 +727,8 @@ var powerbi;
                             emptyColor: settings.flatpercent.emptyColor,
                             fontSize: settings.flatpercent.fontSize,
                             multiplier: settings.flatpercent.multiplier,
-                            arcsize: settings.flatpercent.arcsize
+                            arcsize: settings.flatpercent.arcsize,
+                            textcolor: settings.flatpercent.textcolor
                         };
                         var gHeight = options.viewport.height - this.margin.top - this.margin.bottom;
                         var gWidth = options.viewport.width - this.margin.right - this.margin.left;

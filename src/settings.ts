@@ -4,6 +4,7 @@ module powerbi.extensibility.visual {
 
   export class VisualSettings extends DataViewObjectsParser {
     public flatpercent: flatPercentSettings = new flatPercentSettings();
+    public vor: VorSettings = new VorSettings();
   }
 
   export class Margin {
@@ -21,9 +22,20 @@ module powerbi.extensibility.visual {
 
   export class flatPercentSettings {
     public defaultColor: string = "#E91E63";
+    public textcolor: string = "#E91E63";
     public emptyColor: string = "#fff";
     public fontSize: number = 13;
     public multiplier: boolean = true;
     public arcsize: number = 4;
+  }
+
+  export class VorSettings {
+    public Activated: boolean = false;
+    public Lowcolor: string = "red";
+    public MiddleColor: string = "orange";
+    public HighColor: string = "green";
+    public FixedValues: boolean = true;
+    public FirstValue: number = 25;
+    public SecondValue: number = 75;
   }
 }

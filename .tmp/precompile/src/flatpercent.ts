@@ -73,7 +73,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
                 .attr("y", init.gHeight / 2)
                 .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .style('fill', init.params.defaultColor)
+                .style('fill', init.params.textcolor)
                 .attr('class', 'textvalue')
                 .text(`${value}%`);
         }
@@ -86,7 +86,8 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
                 emptyColor: settings.flatpercent.emptyColor,
                 fontSize: settings.flatpercent.fontSize,
                 multiplier: settings.flatpercent.multiplier,
-                arcsize: settings.flatpercent.arcsize
+                arcsize: settings.flatpercent.arcsize,
+                textcolor: settings.flatpercent.textcolor
             };
 
             const gHeight = options.viewport.height - this.margin.top - this.margin.bottom;

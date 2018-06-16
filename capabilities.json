@@ -27,6 +27,65 @@
                 }
             }
         },
+        "vor": {
+            "displayName": "VOR",
+            "properties": {
+                "Activated": {
+                    "displayName": "Activated",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "Lowcolor": {
+                    "displayName": "Low Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "MiddleColor": {
+                    "displayName": "Middle Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "HighColor": {
+                    "displayName": "High Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "FixedValues": {
+                    "displayName": "Fixed Values",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "FirstValue": {
+                    "displayName": "First Value",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "SecondValue": {
+                    "displayName": "Second Value",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
         "flatpercent": {
             "displayName": "Percent options",
             "properties": {
@@ -42,6 +101,16 @@
                 },
                 "emptyColor": {
                     "displayName": "Empty color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "textcolor": {
+                    "displayName": "Text Color",
                     "type": {
                         "fill": {
                             "solid": {

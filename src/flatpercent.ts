@@ -73,7 +73,7 @@ module powerbi.extensibility.visual {
                 .attr("y", init.gHeight / 2)
                 .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .style('fill', init.params.defaultColor)
+                .style('fill', init.params.textcolor)
                 .attr('class', 'textvalue')
                 .text(`${value}%`);
         }
@@ -86,7 +86,8 @@ module powerbi.extensibility.visual {
                 emptyColor: settings.flatpercent.emptyColor,
                 fontSize: settings.flatpercent.fontSize,
                 multiplier: settings.flatpercent.multiplier,
-                arcsize: settings.flatpercent.arcsize
+                arcsize: settings.flatpercent.arcsize,
+                textcolor: settings.flatpercent.textcolor
             };
 
             const gHeight = options.viewport.height - this.margin.top - this.margin.bottom;

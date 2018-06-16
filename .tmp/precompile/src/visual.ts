@@ -13,6 +13,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
         }
 
         public update(options: VisualUpdateOptions) {
+            console.log(options);
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let value = +options.dataViews[0].categorical.values[0].values[0];
              let titletext = options.dataViews[0].categorical.values[0].source.displayName;
