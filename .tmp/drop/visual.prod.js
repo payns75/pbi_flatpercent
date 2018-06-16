@@ -547,10 +547,6 @@ var powerbi;
                     return Margin;
                 }());
                 flatpercent4542516F697944D4BA75699C96A7D2E6.Margin = Margin;
-                function parseSettings(dataView) {
-                    return VisualSettings.parse(dataView);
-                }
-                flatpercent4542516F697944D4BA75699C96A7D2E6.parseSettings = parseSettings;
                 var flatPercentSettings = (function () {
                     function flatPercentSettings() {
                         this.defaultColor = "#E91E63";
@@ -596,7 +592,6 @@ var powerbi;
                         this.flatpercent = new flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
                     }
                     Visual.prototype.update = function (options) {
-                        console.log(options);
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
                         var value = +options.dataViews[0].categorical.values[0].values[0];
                         var titletext = options.dataViews[0].categorical.values[0].source.displayName;
@@ -604,7 +599,7 @@ var powerbi;
                             height: options.viewport.height,
                             width: options.viewport.width
                         });
-                        this.flatpercent.Update(options, value);
+                        this.flatpercent.Update(options, this.settings, value);
                         var titlealign = 1;
                         var titlex = 0;
                         var titleanchor = 'middle';
@@ -667,11 +662,11 @@ var powerbi;
                             this.margin = new flatpercent4542516F697944D4BA75699C96A7D2E6.Margin();
                         }
                     }
-                    FlatPercent.prototype.Update = function (options, value) {
-                        var init = this.initContainer(options);
+                    FlatPercent.prototype.Update = function (options, settings, value) {
+                        var init = this.initContainer(options, settings);
                         this.gcontainer.selectAll('.arcvalue').remove();
                         this.gcontainer.selectAll('.textvalue').remove();
-                        if (init.params.multiplier) {
+                        if (settings.flatpercent.multiplier) {
                             value *= 100;
                         }
                         value = Math.ceil(value);
@@ -679,7 +674,7 @@ var powerbi;
                             var radius = Math.min(init.gWidth, init.gHeight) / 2;
                             var arc_1 = d3.svg.arc()
                                 .outerRadius(radius)
-                                .innerRadius(radius * (100 - init.params.arcsize) / 100);
+                                .innerRadius(radius * (100 - settings.flatpercent.arcsize) / 100);
                             var pie = d3.layout.pie().sort(null);
                             var basearc = this.gcontainer.append('g')
                                 .attr('class', 'arcvalue')
@@ -692,7 +687,7 @@ var powerbi;
                                 .data(pie(values));
                             var path = dpath
                                 .enter().append('path')
-                                .attr('fill', function (d, i) { return i ? init.params.emptyColor : init.params.defaultColor; });
+                                .attr('fill', function (d, i) { return i ? settings.flatpercent.emptyColor : settings.flatpercent.defaultColor; });
                             if (value !== this.previousvalue) {
                                 path.transition().delay(function (d, i) { return i * 500; }).duration(500)
                                     .attrTween('d', function (d) {
@@ -711,25 +706,16 @@ var powerbi;
                         }
                         this.previousvalue = value;
                         this.gcontainer.append('g').append('text')
-                            .style('font-size', init.params.fontSize + "vw")
+                            .style('font-size', settings.flatpercent.fontSize + "vw")
                             .attr("x", init.gWidth / 2)
                             .attr("y", init.gHeight / 2)
                             .attr('text-anchor', 'middle')
                             .attr('alignment-baseline', 'middle')
-                            .style('fill', init.params.textcolor)
+                            .style('fill', settings.flatpercent.textcolor)
                             .attr('class', 'textvalue')
                             .text(value + "%");
                     };
-                    FlatPercent.prototype.initContainer = function (options) {
-                        var settings = flatpercent4542516F697944D4BA75699C96A7D2E6.parseSettings(options && options.dataViews && options.dataViews[0]);
-                        var params = {
-                            defaultColor: settings.flatpercent.defaultColor,
-                            emptyColor: settings.flatpercent.emptyColor,
-                            fontSize: settings.flatpercent.fontSize,
-                            multiplier: settings.flatpercent.multiplier,
-                            arcsize: settings.flatpercent.arcsize,
-                            textcolor: settings.flatpercent.textcolor
-                        };
+                    FlatPercent.prototype.initContainer = function (options, settings) {
                         var gHeight = options.viewport.height - this.margin.top - this.margin.bottom;
                         var gWidth = options.viewport.width - this.margin.right - this.margin.left;
                         this.gcontainer.attr({
@@ -737,7 +723,7 @@ var powerbi;
                             width: gWidth
                         });
                         this.gcontainer.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-                        return { params: params, gHeight: gHeight, gWidth: gWidth };
+                        return { gHeight: gHeight, gWidth: gWidth };
                     };
                     return FlatPercent;
                 }());

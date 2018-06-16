@@ -10,6 +10,7 @@
 
 ## Chrome debug
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+https://powerbi.microsoft.com/fr-fr/
 
 # TODOS
 - Activer/désactiver animations ?

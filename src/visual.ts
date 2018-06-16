@@ -13,7 +13,6 @@ module powerbi.extensibility.visual {
         }
 
         public update(options: VisualUpdateOptions) {
-            console.log(options);
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let value = +options.dataViews[0].categorical.values[0].values[0];
              let titletext = options.dataViews[0].categorical.values[0].source.displayName;
@@ -23,7 +22,7 @@ module powerbi.extensibility.visual {
                 width: options.viewport.width
             });
 
-            this.flatpercent.Update(options, value);
+            this.flatpercent.Update(options, this.settings, value);
 
             let titlealign = 1;
             let titlex = 0;
@@ -50,8 +49,6 @@ module powerbi.extensibility.visual {
                 .style('fill', 'blue')
                 .attr('class', 'titlevalue')
                 .text(titletext);
-
-
         }
 
         /** 

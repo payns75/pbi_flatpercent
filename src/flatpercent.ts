@@ -10,12 +10,12 @@ module powerbi.extensibility.visual {
 
         private previousvalue: number = null;
 
-        public Update(options: VisualUpdateOptions, value: number) {
-            const init = this.initContainer(options);
+        public Update(options: VisualUpdateOptions, settings: VisualSettings, value: number) {
+            const init = this.initContainer(options, settings);
             this.gcontainer.selectAll('.arcvalue').remove();
             this.gcontainer.selectAll('.textvalue').remove();
 
-            if (init.params.multiplier) {
+            if (settings.flatpercent.multiplier) {
                 value *= 100;
             }
 
@@ -25,7 +25,7 @@ module powerbi.extensibility.visual {
                 const radius = Math.min(init.gWidth, init.gHeight) / 2;
                 const arc = d3.svg.arc()
                     .outerRadius(radius)
-                    .innerRadius(radius * (100 - init.params.arcsize) / 100);
+                    .innerRadius(radius * (100 - settings.flatpercent.arcsize) / 100);
 
                 const pie = d3.layout.pie().sort(null);
 
@@ -44,7 +44,7 @@ module powerbi.extensibility.visual {
 
                 const path = dpath
                     .enter().append('path')
-                    .attr('fill', (d, i) => i ? init.params.emptyColor : init.params.defaultColor);
+                    .attr('fill', (d, i) => i ? settings.flatpercent.emptyColor : settings.flatpercent.defaultColor);
 
                 if (value !== this.previousvalue) {
                     path.transition().delay((d, i) => i * 500).duration(500)
@@ -66,30 +66,18 @@ module powerbi.extensibility.visual {
 
             this.previousvalue = value;
 
-
             this.gcontainer.append('g').append('text')
-                .style('font-size', `${init.params.fontSize}vw`)
+                .style('font-size', `${settings.flatpercent.fontSize}vw`)
                 .attr("x", init.gWidth / 2)
                 .attr("y", init.gHeight / 2)
                 .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .style('fill', init.params.textcolor)
+                .style('fill', settings.flatpercent.textcolor)
                 .attr('class', 'textvalue')
                 .text(`${value}%`);
         }
 
-        private initContainer(options: VisualUpdateOptions): any {
-            const settings = parseSettings(options && options.dataViews && options.dataViews[0]);
-
-            const params: flatPercentSettings = {
-                defaultColor: settings.flatpercent.defaultColor,
-                emptyColor: settings.flatpercent.emptyColor,
-                fontSize: settings.flatpercent.fontSize,
-                multiplier: settings.flatpercent.multiplier,
-                arcsize: settings.flatpercent.arcsize,
-                textcolor: settings.flatpercent.textcolor
-            };
-
+        private initContainer(options: VisualUpdateOptions, settings: VisualSettings): any {
             const gHeight = options.viewport.height - this.margin.top - this.margin.bottom;
             const gWidth = options.viewport.width - this.margin.right - this.margin.left;
 
@@ -101,7 +89,7 @@ module powerbi.extensibility.visual {
             this.gcontainer.attr('transform',
                 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
-            return { params, gHeight, gWidth };
+            return { gHeight, gWidth };
         }
     }
 }

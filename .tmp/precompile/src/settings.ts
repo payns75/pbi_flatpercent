@@ -15,11 +15,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
     public bottom: number = 20;
     public left: number = 20;
   }
-
-  export function parseSettings(dataView: DataView): VisualSettings {
-    return VisualSettings.parse(dataView) as VisualSettings;
-  }
-
+  
   export class flatPercentSettings {
     public defaultColor: string = "#E91E63";
     public textcolor: string = "#E91E63";
