@@ -31,12 +31,11 @@
 - Publier sur le store -> quid de la licence / propriétaire
 - Ajout d'une bulle d'aide de description à coté du titre
 - Arrondi supperieur ou inferieur, et décimals ?
-- Revoir pour recentrer le texte
 - 2 mesures de seuil pour la gestion des VOR
-- VOR sur le texte 3 couleurs, si pas de mesures de seuil, avoir une valeur par défaut
 - Définir les descriptions des propriétés.
 - Définir les noms des priorités pour la localization
 - Configurer les champs de mesure correctement pour 1 seule valeur (min pour la mesure principale), et récupérer la bonne valeur --> cf doc
+- Quid si plusieurs catégory séléctionnés ? Possible ?
 
 # Idées pour plus tard
 - Option de décalage des animations si plusieurs contrôles ?
