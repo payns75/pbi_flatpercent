@@ -6,15 +6,26 @@
             "kind": "Measure"
         },
         {
-            "displayName": "Low Data",
+            "displayName": "Low Measure",
             "name": "measurevorlow",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Middle Measure",
+            "name": "measurevormiddle",
             "kind": "Measure"
         }
     ],
     "objects": {
-        "title": {
-            "displayName": "Title",
+        "pie": {
+            "displayName": "Pie",
             "properties": {
+                "show": {
+                    "displayName": "Pie Property Switch",
+                    "type": {
+                        "bool": true
+                    }
+                },
                 "defaultColor": {
                     "displayName": "Default color",
                     "type": {
@@ -23,6 +34,87 @@
                                 "color": true
                             }
                         }
+                    }
+                },
+                "emptyColor": {
+                    "displayName": "Empty color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "arcSize": {
+                    "displayName": "Size",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "insideValue": {
+            "displayName": "Inside Value",
+            "properties": {
+                "show": {
+                    "displayName": "InsideValue Property Switch",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "defaultColor": {
+                    "displayName": "Default Color",
+                    "displayNameKey": "InsideValue_DefaultColor",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "fontSize": {
+                    "displayName": "Text Size",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "multiplier": {
+                    "displayName": "Multiplier",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "nanText": {
+                    "displayName": "NAN Text",
+                    "type": {
+                        "text": true
+                    }
+                },
+                "suffix": {
+                    "displayName": "Suffixe",
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
+        },
+        "animation": {
+            "displayName": "Animation",
+            "properties": {
+                "show": {
+                    "displayName": "Animation Property Switch",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "duration": {
+                    "displayName": "Duration(ms)",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }
@@ -72,6 +164,18 @@
                         }
                     }
                 },
+                "onPie": {
+                    "displayName": "On Pie",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "onValue": {
+                    "displayName": "On Value",
+                    "type": {
+                        "bool": true
+                    }
+                },
                 "fixedValues": {
                     "displayName": "Fixed Values",
                     "type": {
@@ -79,68 +183,13 @@
                     }
                 },
                 "firstValue": {
-                    "displayName": "First Value",
+                    "displayName": "Low Value",
                     "type": {
                         "numeric": true
                     }
                 },
                 "secondValue": {
-                    "displayName": "Second Value",
-                    "type": {
-                        "numeric": true
-                    }
-                }
-            }
-        },
-        "flatpercent": {
-            "displayName": "Percent options",
-            "properties": {
-                "defaultColor": {
-                    "displayName": "Default color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "emptyColor": {
-                    "displayName": "Empty color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "textColor": {
-                    "displayName": "Text Color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "fontSize": {
-                    "displayName": "Text Size",
-                    "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
-                    }
-                },
-                "multiplier": {
-                    "displayName": "Multiplier",
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "arcSize": {
-                    "displayName": "arcsize",
+                    "displayName": "Middle Value",
                     "type": {
                         "numeric": true
                     }
@@ -153,6 +202,17 @@
             "conditions": [
                 {
                     "measure": {
+                        "min": 1,
+                        "max": 1
+                    }
+                },
+                {
+                    "measurevorlow": {
+                        "max": 1
+                    }
+                },
+                {
+                    "measurevormiddle": {
                         "max": 1
                     }
                 }

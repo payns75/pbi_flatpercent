@@ -5,14 +5,19 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
         private svg: d3.Selection<SVGElement>;
         private gcontainer: d3.Selection<SVGElement>;
         private flatpercent: FlatPercent;
+        private localizationManager: ILocalizationManager;
 
         constructor(options: VisualConstructorOptions) {
+            this.localizationManager = options.host.createLocalizationManager();
             this.svg = d3.select(options.element).append('svg');
             this.gcontainer = this.svg.append('g').classed('percenter', true);
             this.flatpercent = new FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
         }
 
         public update(options: VisualUpdateOptions) {
+            // TODO : Exemple de récupération de localization.
+            // let legend: string = this.localizationManager.getDisplayName("plop");
+
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let value = +options.dataViews[0].categorical.values[0].values[0];
             let titletext = options.dataViews[0].categorical.values[0].source.displayName;

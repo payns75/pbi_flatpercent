@@ -15,17 +15,19 @@ module powerbi.extensibility.visual {
             this.gcontainer.selectAll('.arcvalue').remove();
             this.gcontainer.selectAll('.textvalue').remove();
 
-            if (settings.flatpercent.multiplier) {
+            if (settings.insideValue.multiplier) {
                 value *= 100;
             }
 
             value = Math.ceil(value);
 
-            if (value && value > 0) {
+            let isvalidvalue = value && !isNaN(Number(value.toString())) && value !== Infinity;
+
+            if (isvalidvalue && value > 0 && settings.pie.show) {
                 const radius = Math.min(init.gWidth, init.gHeight) / 2;
                 const arc = d3.svg.arc()
                     .outerRadius(radius)
-                    .innerRadius(radius * (100 - settings.flatpercent.arcSize) / 100);
+                    .innerRadius(radius * (100 - settings.pie.arcSize) / 100);
 
                 const pie = d3.layout.pie().sort(null);
 
@@ -42,12 +44,14 @@ module powerbi.extensibility.visual {
                 const dpath = basearc.selectAll('path')
                     .data(pie(values));
 
+                const pieColor = settings.vor.onPie ? this.getVorColor(settings, value) : settings.pie.defaultColor;
+
                 const path = dpath
                     .enter().append('path')
-                    .attr('fill', (d, i) => i ? settings.flatpercent.emptyColor : settings.flatpercent.defaultColor);
+                    .attr('fill', (d, i) => i ? settings.pie.emptyColor : pieColor);
 
-                if (value !== this.previousvalue) {
-                    path.transition().delay((d, i) => i * 500).duration(500)
+                if (value !== this.previousvalue && settings.animation.show) {
+                    path.transition().delay((d, i) => i * settings.animation.duration).duration(settings.animation.duration)
                         .attrTween('d', (d) => {
                             const i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
                             return (t) => {
@@ -66,27 +70,43 @@ module powerbi.extensibility.visual {
 
             this.previousvalue = value;
 
-            let textcolor = settings.flatpercent.textColor;
+            if (settings.insideValue.show) {
+                let textcolor = settings.insideValue.defaultColor;
 
-            if (settings.vor.show && settings.vor.fixedValues) {
-                if (value < settings.vor.firstValue) {
-                    textcolor = settings.vor.lowColor;
-                } else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
-                    textcolor = settings.vor.middleColor;
+                if (isvalidvalue && settings.vor.onValue) {
+                    textcolor = this.getVorColor(settings, value);
+                }
+
+                let textValue = isvalidvalue ? `${value}${settings.insideValue.suffix}` : settings.insideValue.nanText;
+
+                this.gcontainer.append('g').append('text')
+                    .style('font-size', `${settings.insideValue.fontSize}vw`)
+                    .attr("x", init.gWidth / 2)
+                    .attr("y", init.gHeight / 2)
+                    .attr('text-anchor', 'middle')
+                    .attr('alignment-baseline', 'middle')
+                    .style('fill', textcolor)
+                    .attr('class', 'textvalue')
+                    .text(textValue);
+            }
+        }
+
+        private getVorColor(settings: VisualSettings, value: number): string {
+            if (settings.vor.show) {
+                if (settings.vor.fixedValues) {
+                    if (value < settings.vor.firstValue) {
+                        return settings.vor.lowColor;
+                    } else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
+                        return settings.vor.middleColor;
+                    } else {
+                        return settings.vor.highColor;
+                    }
                 } else {
-                    textcolor = settings.vor.highColor;
+                    // TODO : Measures values.
                 }
             }
 
-            this.gcontainer.append('g').append('text')
-                .style('font-size', `${settings.flatpercent.fontSize}vw`)
-                .attr("x", init.gWidth / 2)
-                .attr("y", init.gHeight / 2)
-                .attr('text-anchor', 'middle')
-                .attr('alignment-baseline', 'middle')
-                .style('fill', textcolor)
-                .attr('class', 'textvalue')
-                .text(`${value}%`);
+            return settings.insideValue.defaultColor;
         }
 
         private initContainer(options: VisualUpdateOptions, settings: VisualSettings): any {

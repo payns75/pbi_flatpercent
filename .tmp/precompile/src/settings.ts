@@ -3,8 +3,10 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
   import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
 
   export class VisualSettings extends DataViewObjectsParser {
-    public flatpercent: FlatPercentSettings = new FlatPercentSettings();
+    public pie: PieSettings = new PieSettings();
     public vor: VorSettings = new VorSettings();
+    public animation: AnimationSettings = new AnimationSettings();
+    public insideValue: InsideValueSettings = new InsideValueSettings();
   }
 
   export class Margin {
@@ -16,13 +18,25 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
     public left: number = 20;
   }
 
-  export class FlatPercentSettings {
+  export class AnimationSettings {
+    public show: boolean = true;
+    public duration: number = 500;
+  }
+
+  export class PieSettings {
+    public show: boolean = true;
     public defaultColor: string = "#E91E63";
-    public textColor: string = "#E91E63";
     public emptyColor: string = "#fff";
+    public arcSize: number = 4;
+  }
+
+  export class InsideValueSettings {
+    public show: boolean = true;
+    public defaultColor: string = "#E91E63";
     public fontSize: number = 13;
     public multiplier: boolean = true;
-    public arcSize: number = 4;
+    public nanText: string = "Empty";
+    public suffix: string = "%";
   }
 
   export class VorSettings {
@@ -30,6 +44,8 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
     public lowColor: string = "red";
     public middleColor: string = "orange";
     public highColor: string = "green";
+    public onValue: boolean = true;
+    public onPie: boolean = false;
     public fixedValues: boolean = true;
     public firstValue: number = 25;
     public secondValue: number = 75;

@@ -530,8 +530,10 @@ var powerbi;
                     __extends(VisualSettings, _super);
                     function VisualSettings() {
                         var _this = _super !== null && _super.apply(this, arguments) || this;
-                        _this.flatpercent = new FlatPercentSettings();
+                        _this.pie = new PieSettings();
                         _this.vor = new VorSettings();
+                        _this.animation = new AnimationSettings();
+                        _this.insideValue = new InsideValueSettings();
                         return _this;
                     }
                     return VisualSettings;
@@ -547,24 +549,44 @@ var powerbi;
                     return Margin;
                 }());
                 flatpercent4542516F697944D4BA75699C96A7D2E6.Margin = Margin;
-                var FlatPercentSettings = (function () {
-                    function FlatPercentSettings() {
+                var AnimationSettings = (function () {
+                    function AnimationSettings() {
+                        this.show = true;
+                        this.duration = 500;
+                    }
+                    return AnimationSettings;
+                }());
+                flatpercent4542516F697944D4BA75699C96A7D2E6.AnimationSettings = AnimationSettings;
+                var PieSettings = (function () {
+                    function PieSettings() {
+                        this.show = true;
                         this.defaultColor = "#E91E63";
-                        this.textColor = "#E91E63";
                         this.emptyColor = "#fff";
-                        this.fontSize = 13;
-                        this.multiplier = true;
                         this.arcSize = 4;
                     }
-                    return FlatPercentSettings;
+                    return PieSettings;
                 }());
-                flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercentSettings = FlatPercentSettings;
+                flatpercent4542516F697944D4BA75699C96A7D2E6.PieSettings = PieSettings;
+                var InsideValueSettings = (function () {
+                    function InsideValueSettings() {
+                        this.show = true;
+                        this.defaultColor = "#E91E63";
+                        this.fontSize = 13;
+                        this.multiplier = true;
+                        this.nanText = "Empty";
+                        this.suffix = "%";
+                    }
+                    return InsideValueSettings;
+                }());
+                flatpercent4542516F697944D4BA75699C96A7D2E6.InsideValueSettings = InsideValueSettings;
                 var VorSettings = (function () {
                     function VorSettings() {
                         this.show = false;
                         this.lowColor = "red";
                         this.middleColor = "orange";
                         this.highColor = "green";
+                        this.onValue = true;
+                        this.onPie = false;
                         this.fixedValues = true;
                         this.firstValue = 25;
                         this.secondValue = 75;
@@ -587,11 +609,14 @@ var powerbi;
                 "use strict";
                 var Visual = (function () {
                     function Visual(options) {
+                        this.localizationManager = options.host.createLocalizationManager();
                         this.svg = d3.select(options.element).append('svg');
                         this.gcontainer = this.svg.append('g').classed('percenter', true);
                         this.flatpercent = new flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
                     }
                     Visual.prototype.update = function (options) {
+                        // TODO : Exemple de récupération de localization.
+                        // let legend: string = this.localizationManager.getDisplayName("plop");
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
                         var value = +options.dataViews[0].categorical.values[0].values[0];
                         var titletext = options.dataViews[0].categorical.values[0].source.displayName;
@@ -667,15 +692,16 @@ var powerbi;
                         var init = this.initContainer(options, settings);
                         this.gcontainer.selectAll('.arcvalue').remove();
                         this.gcontainer.selectAll('.textvalue').remove();
-                        if (settings.flatpercent.multiplier) {
+                        if (settings.insideValue.multiplier) {
                             value *= 100;
                         }
                         value = Math.ceil(value);
-                        if (value && value > 0) {
+                        var isvalidvalue = value && !isNaN(Number(value.toString())) && value !== Infinity;
+                        if (isvalidvalue && value > 0 && settings.pie.show) {
                             var radius = Math.min(init.gWidth, init.gHeight) / 2;
                             var arc_1 = d3.svg.arc()
                                 .outerRadius(radius)
-                                .innerRadius(radius * (100 - settings.flatpercent.arcSize) / 100);
+                                .innerRadius(radius * (100 - settings.pie.arcSize) / 100);
                             var pie = d3.layout.pie().sort(null);
                             var basearc = this.gcontainer.append('g')
                                 .attr('class', 'arcvalue')
@@ -686,11 +712,12 @@ var powerbi;
                             }
                             var dpath = basearc.selectAll('path')
                                 .data(pie(values));
+                            var pieColor_1 = settings.vor.onPie ? this.getVorColor(settings, value) : settings.pie.defaultColor;
                             var path = dpath
                                 .enter().append('path')
-                                .attr('fill', function (d, i) { return i ? settings.flatpercent.emptyColor : settings.flatpercent.defaultColor; });
-                            if (value !== this.previousvalue) {
-                                path.transition().delay(function (d, i) { return i * 500; }).duration(500)
+                                .attr('fill', function (d, i) { return i ? settings.pie.emptyColor : pieColor_1; });
+                            if (value !== this.previousvalue && settings.animation.show) {
+                                path.transition().delay(function (d, i) { return i * settings.animation.duration; }).duration(settings.animation.duration)
                                     .attrTween('d', function (d) {
                                     var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
                                     return function (t) {
@@ -706,27 +733,41 @@ var powerbi;
                                 .remove();
                         }
                         this.previousvalue = value;
-                        var textcolor = settings.flatpercent.textColor;
-                        if (settings.vor.show && settings.vor.fixedValues) {
-                            if (value < settings.vor.firstValue) {
-                                textcolor = settings.vor.lowColor;
+                        if (settings.insideValue.show) {
+                            var textcolor = settings.insideValue.defaultColor;
+                            if (isvalidvalue && settings.vor.onValue) {
+                                textcolor = this.getVorColor(settings, value);
                             }
-                            else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
-                                textcolor = settings.vor.middleColor;
+                            var textValue = isvalidvalue ? "" + value + settings.insideValue.suffix : settings.insideValue.nanText;
+                            this.gcontainer.append('g').append('text')
+                                .style('font-size', settings.insideValue.fontSize + "vw")
+                                .attr("x", init.gWidth / 2)
+                                .attr("y", init.gHeight / 2)
+                                .attr('text-anchor', 'middle')
+                                .attr('alignment-baseline', 'middle')
+                                .style('fill', textcolor)
+                                .attr('class', 'textvalue')
+                                .text(textValue);
+                        }
+                    };
+                    FlatPercent.prototype.getVorColor = function (settings, value) {
+                        if (settings.vor.show) {
+                            if (settings.vor.fixedValues) {
+                                if (value < settings.vor.firstValue) {
+                                    return settings.vor.lowColor;
+                                }
+                                else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
+                                    return settings.vor.middleColor;
+                                }
+                                else {
+                                    return settings.vor.highColor;
+                                }
                             }
                             else {
-                                textcolor = settings.vor.highColor;
+                                // TODO : Measures values.
                             }
                         }
-                        this.gcontainer.append('g').append('text')
-                            .style('font-size', settings.flatpercent.fontSize + "vw")
-                            .attr("x", init.gWidth / 2)
-                            .attr("y", init.gHeight / 2)
-                            .attr('text-anchor', 'middle')
-                            .attr('alignment-baseline', 'middle')
-                            .style('fill', textcolor)
-                            .attr('class', 'textvalue')
-                            .text(value + "%");
+                        return settings.insideValue.defaultColor;
                     };
                     FlatPercent.prototype.initContainer = function (options, settings) {
                         var gHeight = options.viewport.height - this.margin.top - this.margin.bottom;
@@ -751,8 +792,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG = {
-                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG',
+            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6 = {
+                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6',
                 displayName: 'flatpercent',
                 class: 'Visual',
                 version: '1.0.0',
