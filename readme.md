@@ -59,3 +59,4 @@
 - https://github.com/Microsoft/PowerBI-visuals#developing-your-first-powerbi-visual
 - https://community.powerbi.com/t5/Developer/custom-visual-enumeration-issues/m-p/146866
 - https://community.powerbi.com/t5/Custom-Visuals-Development/disable-custom-objects-properties/m-p/307773
+- https://microsoft.github.io/PowerBI-visuals/docs/latest/concepts/capabilities/
