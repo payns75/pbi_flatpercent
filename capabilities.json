@@ -30,13 +30,21 @@
         "vor": {
             "displayName": "VOR",
             "properties": {
-                "Activated": {
+                "display": {
+                    "displayName": "display",
+                    "type": {
+                        "enumeration": [
+                            
+                        ]
+                    }
+                },
+                "activated": {
                     "displayName": "Activated",
                     "type": {
                         "bool": true
                     }
                 },
-                "Lowcolor": {
+                "lowColor": {
                     "displayName": "Low Color",
                     "type": {
                         "fill": {
@@ -46,7 +54,7 @@
                         }
                     }
                 },
-                "MiddleColor": {
+                "middleColor": {
                     "displayName": "Middle Color",
                     "type": {
                         "fill": {
@@ -56,7 +64,7 @@
                         }
                     }
                 },
-                "HighColor": {
+                "highColor": {
                     "displayName": "High Color",
                     "type": {
                         "fill": {
@@ -66,19 +74,19 @@
                         }
                     }
                 },
-                "FixedValues": {
+                "fixedValues": {
                     "displayName": "Fixed Values",
                     "type": {
                         "bool": true
                     }
                 },
-                "FirstValue": {
+                "firstValue": {
                     "displayName": "First Value",
                     "type": {
                         "numeric": true
                     }
                 },
-                "SecondValue": {
+                "secondValue": {
                     "displayName": "Second Value",
                     "type": {
                         "numeric": true
@@ -109,7 +117,7 @@
                         }
                     }
                 },
-                "textcolor": {
+                "textColor": {
                     "displayName": "Text Color",
                     "type": {
                         "fill": {
@@ -133,7 +141,7 @@
                         "bool": true
                     }
                 },
-                "arcsize": {
+                "arcSize": {
                     "displayName": "arcsize",
                     "type": {
                         "numeric": true

@@ -15,7 +15,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let value = +options.dataViews[0].categorical.values[0].values[0];
-             let titletext = options.dataViews[0].categorical.values[0].source.displayName;
+            let titletext = options.dataViews[0].categorical.values[0].source.displayName;
 
             this.svg.attr({
                 height: options.viewport.height,
@@ -26,16 +26,16 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
 
             let titlealign = 1;
             let titlex = 0;
-            let titleanchor = 'middle'
+            let titleanchor = 'middle';
 
-            if(titlealign === 0){
+            if (titlealign === 0) {
                 titlex = 0;
                 titleanchor = 'start';
-            } else if(titlealign===1){
-                titlex = options.viewport.width/2;
+            } else if (titlealign === 1) {
+                titlex = options.viewport.width / 2;
                 titleanchor = 'middle';
 
-            } else if(titlealign===2){
+            } else if (titlealign === 2) {
                 titlex = options.viewport.width;
                 titleanchor = 'end';
             }
@@ -51,17 +51,18 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
                 .text(titletext);
         }
 
-        /** 
-         * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the 
+        /**
+         * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
          * objects and properties you want to expose to the users in the property pane.
-         * 
+         *
          */
         private static parseSettings(dataView: DataView): VisualSettings {
             return VisualSettings.parse(dataView) as VisualSettings;
         }
 
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
-            return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+            const item = VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+            return item;
         }
     }
 }

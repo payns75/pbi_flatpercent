@@ -4,8 +4,7 @@
         {
             "name": "Debugger",
             "type": "chrome",
-            "request": "attach",
-            "port": 9222,
+            "request": "launch",
             "sourceMaps": true,
             "url": "https://powerbi.microsoft.com/fr-fr/",
             "webRoot": "${cwd}/"

@@ -530,7 +530,7 @@ var powerbi;
                     __extends(VisualSettings, _super);
                     function VisualSettings() {
                         var _this = _super !== null && _super.apply(this, arguments) || this;
-                        _this.flatpercent = new flatPercentSettings();
+                        _this.flatpercent = new FlatPercentSettings();
                         _this.vor = new VorSettings();
                         return _this;
                     }
@@ -547,27 +547,27 @@ var powerbi;
                     return Margin;
                 }());
                 flatpercent4542516F697944D4BA75699C96A7D2E6.Margin = Margin;
-                var flatPercentSettings = (function () {
-                    function flatPercentSettings() {
+                var FlatPercentSettings = (function () {
+                    function FlatPercentSettings() {
                         this.defaultColor = "#E91E63";
-                        this.textcolor = "#E91E63";
+                        this.textColor = "#E91E63";
                         this.emptyColor = "#fff";
                         this.fontSize = 13;
                         this.multiplier = true;
-                        this.arcsize = 4;
+                        this.arcSize = 4;
                     }
-                    return flatPercentSettings;
+                    return FlatPercentSettings;
                 }());
-                flatpercent4542516F697944D4BA75699C96A7D2E6.flatPercentSettings = flatPercentSettings;
+                flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercentSettings = FlatPercentSettings;
                 var VorSettings = (function () {
                     function VorSettings() {
-                        this.Activated = false;
-                        this.Lowcolor = "red";
-                        this.MiddleColor = "orange";
-                        this.HighColor = "green";
-                        this.FixedValues = true;
-                        this.FirstValue = 25;
-                        this.SecondValue = 75;
+                        this.activated = false;
+                        this.lowColor = "red";
+                        this.middleColor = "orange";
+                        this.highColor = "green";
+                        this.fixedValues = true;
+                        this.firstValue = 25;
+                        this.secondValue = 75;
                     }
                     return VorSettings;
                 }());
@@ -634,7 +634,8 @@ var powerbi;
                         return flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.parse(dataView);
                     };
                     Visual.prototype.enumerateObjectInstances = function (options) {
-                        return flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.getDefault(), options);
+                        var item = flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.getDefault(), options);
+                        return item;
                     };
                     return Visual;
                 }());
@@ -674,7 +675,7 @@ var powerbi;
                             var radius = Math.min(init.gWidth, init.gHeight) / 2;
                             var arc_1 = d3.svg.arc()
                                 .outerRadius(radius)
-                                .innerRadius(radius * (100 - settings.flatpercent.arcsize) / 100);
+                                .innerRadius(radius * (100 - settings.flatpercent.arcSize) / 100);
                             var pie = d3.layout.pie().sort(null);
                             var basearc = this.gcontainer.append('g')
                                 .attr('class', 'arcvalue')
@@ -705,13 +706,25 @@ var powerbi;
                                 .remove();
                         }
                         this.previousvalue = value;
+                        var textcolor = settings.flatpercent.textColor;
+                        if (settings.vor.activated && settings.vor.fixedValues) {
+                            if (value < settings.vor.firstValue) {
+                                textcolor = settings.vor.lowColor;
+                            }
+                            else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
+                                textcolor = settings.vor.middleColor;
+                            }
+                            else {
+                                textcolor = settings.vor.highColor;
+                            }
+                        }
                         this.gcontainer.append('g').append('text')
                             .style('font-size', settings.flatpercent.fontSize + "vw")
                             .attr("x", init.gWidth / 2)
                             .attr("y", init.gHeight / 2)
                             .attr('text-anchor', 'middle')
                             .attr('alignment-baseline', 'middle')
-                            .style('fill', settings.flatpercent.textcolor)
+                            .style('fill', textcolor)
                             .attr('class', 'textvalue')
                             .text(value + "%");
                     };

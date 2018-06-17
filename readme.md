@@ -1,5 +1,7 @@
-# Installation / packages
+# Installation packages
 - npm i
+
+## Start server
 - pbiviz start
 
 ## Créer un package
@@ -8,9 +10,16 @@
 ## Créer un projet (pour info)
 - pbiviz new myTestVisual
 
+## Tslint
+- Installer l'extension tslint
+- tslint --init initialise la conf si le fichier tslint.json n'existe pas et se base sur les rules de microsoft. Non utilisé ici car trops de contraintes pour le momment...
+- https://basarat.gitbooks.io/typescript/docs/styleguide/styleguide.html
+
 ## Chrome debug
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
-https://powerbi.microsoft.com/fr-fr/
+- Activer le certificat pour le localhost : chrome://flags/#allow-insecure-localhost
+- Installer l'extension chrome
+- /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+- https://powerbi.microsoft.com/fr-fr/
 
 # TODOS
 - Activer/désactiver animations ?
@@ -42,7 +51,11 @@ https://powerbi.microsoft.com/fr-fr/
 - Comment définir des valeurs min/max
 - Comment gérer le multilingue
 - Voir commment configurer le launcher pour exécuter le débug direct sur chrome
+- Le répertoire .temp n'est pas exclus par gitignore
+- Voir l'utilisation des tooltips dans le capabilities.json
 
 # Liens utiles
 - https://tsmatz.wordpress.com/2016/09/27/power-bi-custom-visuals-programming/
 - https://github.com/Microsoft/PowerBI-visuals#developing-your-first-powerbi-visual
+- https://community.powerbi.com/t5/Developer/custom-visual-enumeration-issues/m-p/146866
+- https://community.powerbi.com/t5/Custom-Visuals-Development/disable-custom-objects-properties/m-p/307773

@@ -25,7 +25,7 @@ module powerbi.extensibility.visual {
                 const radius = Math.min(init.gWidth, init.gHeight) / 2;
                 const arc = d3.svg.arc()
                     .outerRadius(radius)
-                    .innerRadius(radius * (100 - settings.flatpercent.arcsize) / 100);
+                    .innerRadius(radius * (100 - settings.flatpercent.arcSize) / 100);
 
                 const pie = d3.layout.pie().sort(null);
 
@@ -66,13 +66,25 @@ module powerbi.extensibility.visual {
 
             this.previousvalue = value;
 
+            let textcolor = settings.flatpercent.textColor;
+
+            if (settings.vor.activated && settings.vor.fixedValues) {
+                if (value < settings.vor.firstValue) {
+                    textcolor = settings.vor.lowColor;
+                } else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
+                    textcolor = settings.vor.middleColor;
+                } else {
+                    textcolor = settings.vor.highColor;
+                }
+            }
+
             this.gcontainer.append('g').append('text')
                 .style('font-size', `${settings.flatpercent.fontSize}vw`)
                 .attr("x", init.gWidth / 2)
                 .attr("y", init.gHeight / 2)
                 .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .style('fill', settings.flatpercent.textcolor)
+                .style('fill', textcolor)
                 .attr('class', 'textvalue')
                 .text(`${value}%`);
         }

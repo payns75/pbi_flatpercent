@@ -3,7 +3,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
   import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
 
   export class VisualSettings extends DataViewObjectsParser {
-    public flatpercent: flatPercentSettings = new flatPercentSettings();
+    public flatpercent: FlatPercentSettings = new FlatPercentSettings();
     public vor: VorSettings = new VorSettings();
   }
 
@@ -15,23 +15,23 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
     public bottom: number = 20;
     public left: number = 20;
   }
-  
-  export class flatPercentSettings {
+
+  export class FlatPercentSettings {
     public defaultColor: string = "#E91E63";
-    public textcolor: string = "#E91E63";
+    public textColor: string = "#E91E63";
     public emptyColor: string = "#fff";
     public fontSize: number = 13;
     public multiplier: boolean = true;
-    public arcsize: number = 4;
+    public arcSize: number = 4;
   }
 
   export class VorSettings {
-    public Activated: boolean = false;
-    public Lowcolor: string = "red";
-    public MiddleColor: string = "orange";
-    public HighColor: string = "green";
-    public FixedValues: boolean = true;
-    public FirstValue: number = 25;
-    public SecondValue: number = 75;
+    public activated: boolean = false;
+    public lowColor: string = "red";
+    public middleColor: string = "orange";
+    public highColor: string = "green";
+    public fixedValues: boolean = true;
+    public firstValue: number = 25;
+    public secondValue: number = 75;
   }
 }
