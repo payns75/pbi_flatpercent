@@ -561,7 +561,7 @@ var powerbi;
                 flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercentSettings = FlatPercentSettings;
                 var VorSettings = (function () {
                     function VorSettings() {
-                        this.activated = false;
+                        this.show = false;
                         this.lowColor = "red";
                         this.middleColor = "orange";
                         this.highColor = "green";
@@ -707,7 +707,7 @@ var powerbi;
                         }
                         this.previousvalue = value;
                         var textcolor = settings.flatpercent.textColor;
-                        if (settings.vor.activated && settings.vor.fixedValues) {
+                        if (settings.vor.show && settings.vor.fixedValues) {
                             if (value < settings.vor.firstValue) {
                                 textcolor = settings.vor.lowColor;
                             }

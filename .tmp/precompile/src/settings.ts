@@ -26,7 +26,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
   }
 
   export class VorSettings {
-    public activated: boolean = false;
+    public show: boolean = false;
     public lowColor: string = "red";
     public middleColor: string = "orange";
     public highColor: string = "green";

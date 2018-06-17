@@ -26,7 +26,7 @@ module powerbi.extensibility.visual {
   }
 
   export class VorSettings {
-    public activated: boolean = false;
+    public show: boolean = false;
     public lowColor: string = "red";
     public middleColor: string = "orange";
     public highColor: string = "green";

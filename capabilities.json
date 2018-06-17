@@ -30,18 +30,16 @@
         "vor": {
             "displayName": "VOR",
             "properties": {
+                "show": {
+                    "displayName": "VOR Property Switch",
+                    "type": {
+                        "bool": true
+                    }
+                },
                 "display": {
                     "displayName": "display",
                     "type": {
-                        "enumeration": [
-                            
-                        ]
-                    }
-                },
-                "activated": {
-                    "displayName": "Activated",
-                    "type": {
-                        "bool": true
+                        "enumeration": []
                     }
                 },
                 "lowColor": {

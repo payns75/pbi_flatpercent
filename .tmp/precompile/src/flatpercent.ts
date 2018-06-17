@@ -68,7 +68,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
 
             let textcolor = settings.flatpercent.textColor;
 
-            if (settings.vor.activated && settings.vor.fixedValues) {
+            if (settings.vor.show && settings.vor.fixedValues) {
                 if (value < settings.vor.firstValue) {
                     textcolor = settings.vor.lowColor;
                 } else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
