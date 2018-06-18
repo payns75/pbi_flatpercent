@@ -49,5 +49,6 @@ module powerbi.extensibility.visual {
     public fixedValues: boolean = true;
     public firstValue: number = 25;
     public secondValue: number = 75;
+    public displayOn: string = "0";
   }
 }

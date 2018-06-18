@@ -129,9 +129,18 @@
                     }
                 },
                 "display": {
-                    "displayName": "display",
+                    "displayName": "displayOn",
                     "type": {
-                        "enumeration": []
+                        "enumeration": [
+                            {
+                                "value": "0",
+                                "displayName": "Fixed Values"
+                            },
+                            {
+                                "value": "1",
+                                "displayName": "Measures Values"
+                            }
+                        ]
                     }
                 },
                 "lowColor": {

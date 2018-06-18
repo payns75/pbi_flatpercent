@@ -49,5 +49,6 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
     public fixedValues: boolean = true;
     public firstValue: number = 25;
     public secondValue: number = 75;
+    public displayOn: string = "0";
   }
 }
