@@ -1,6 +1,6 @@
 module powerbi.visuals.plugins {
-    export var flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG = {
-        name: 'flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG',
+    export var flatpercent4542516F697944D4BA75699C96A7D2E6 = {
+        name: 'flatpercent4542516F697944D4BA75699C96A7D2E6',
         displayName: 'flatpercent',
         class: 'Visual',
         version: '1.0.0',
