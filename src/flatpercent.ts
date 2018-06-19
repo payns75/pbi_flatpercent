@@ -44,7 +44,7 @@ module powerbi.extensibility.visual {
                 const dpath = basearc.selectAll('path')
                     .data(pie(values));
 
-                const pieColor = settings.vor.onPie ? this.getVorColor(settings, value) : settings.pie.defaultColor;
+                const pieColor = settings.vor.onPie ? this.getVorColor(options.dataViews[0].categorical, settings, value) : settings.pie.defaultColor;
 
                 const path = dpath
                     .enter().append('path')
@@ -74,13 +74,13 @@ module powerbi.extensibility.visual {
                 let textcolor = settings.insideValue.defaultColor;
 
                 if (isvalidvalue && settings.vor.onValue) {
-                    textcolor = this.getVorColor(settings, value);
+                    textcolor = this.getVorColor(options.dataViews[0].categorical, settings, value);
                 }
 
                 let textValue = isvalidvalue ? `${value}${settings.insideValue.suffix}` : settings.insideValue.nanText;
 
                 this.gcontainer.append('g').append('text')
-                    .style('font-size', `${settings.insideValue.fontSize}vw`)
+                    .style('font-size', `${settings.insideValue.fontSize}vmin`)
                     .attr("x", init.gWidth / 2)
                     .attr("y", init.gHeight / 2)
                     .attr('text-anchor', 'middle')
@@ -91,18 +91,31 @@ module powerbi.extensibility.visual {
             }
         }
 
-        private getVorColor(settings: VisualSettings, value: number): string {
+        private getVorColor(categorical: DataViewCategorical, settings: VisualSettings, value: number): string {
             if (settings.vor.show) {
-                if (settings.vor.fixedValues) {
-                    if (value < settings.vor.firstValue) {
-                        return settings.vor.lowColor;
-                    } else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
-                        return settings.vor.middleColor;
-                    } else {
-                        return settings.vor.highColor;
-                    }
+                let measurevorlow = settings.vor.firstValue;
+                let measurevormiddle = settings.vor.secondValue;
+
+                if (!settings.vor.fixedValues) {
+                    measurevorlow = Visual.getvalue(categorical, "measurevorlow");
+                    measurevormiddle = Visual.getvalue(categorical, "measurevormiddle");
+
+                    measurevorlow = settings.vor.multiplier ? measurevorlow * 100 : measurevorlow;
+                    measurevormiddle = settings.vor.multiplier ? measurevormiddle * 100 : measurevormiddle;
+
+                    measurevorlow = Math.ceil(measurevorlow);
+                    measurevormiddle = Math.ceil(measurevormiddle);
+
+                    settings.vor.firstValue =  measurevorlow;
+                    settings.vor.secondValue = measurevormiddle;
+                }
+
+                if (value < measurevorlow) {
+                    return settings.vor.lowColor;
+                } else if (value > measurevorlow && value < measurevormiddle) {
+                    return settings.vor.middleColor;
                 } else {
-                    // TODO : Measures values.
+                    return settings.vor.highColor;
                 }
             }
 

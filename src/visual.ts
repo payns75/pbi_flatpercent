@@ -5,22 +5,17 @@ module powerbi.extensibility.visual {
         private svg: d3.Selection<SVGElement>;
         private gcontainer: d3.Selection<SVGElement>;
         private flatpercent: FlatPercent;
-        private localizationManager: ILocalizationManager;
 
         constructor(options: VisualConstructorOptions) {
-            this.localizationManager = options.host.createLocalizationManager();
             this.svg = d3.select(options.element).append('svg');
             this.gcontainer = this.svg.append('g').classed('percenter', true);
-            this.flatpercent = new FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
+            this.flatpercent = new FlatPercent(this.gcontainer, { top: 5, right: 1, bottom: 1, left: 1 });
         }
 
         public update(options: VisualUpdateOptions) {
-            // TODO : Exemple de récupération de localization.
-            // let legend: string = this.localizationManager.getDisplayName("plop");
-
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-            let value = +options.dataViews[0].categorical.values[0].values[0];
-            let titletext = options.dataViews[0].categorical.values[0].source.displayName;
+            let value = Visual.getvalue(options.dataViews[0].categorical, "measure");
+            // let titletext = options.dataViews[0].categorical.values[0].source.displayName;
 
             this.svg.attr({
                 height: options.viewport.height,
@@ -45,15 +40,23 @@ module powerbi.extensibility.visual {
                 titleanchor = 'end';
             }
 
-            this.svg.selectAll('.titlevalue').remove();
-            this.svg.append('g').append('text')
-                .style('font-size', '5vw')
-                .attr("x", titlex)
-                .attr("y", 20)
-                .attr('text-anchor', titleanchor)
-                .style('fill', 'blue')
-                .attr('class', 'titlevalue')
-                .text(titletext);
+            // this.svg.selectAll('.titlevalue').remove();
+            // this.svg.append('g').append('text')
+            //     .style('font-size', '5vw')
+            //     .attr("x", titlex)
+            //     .attr("y", 20)
+            //     .attr('text-anchor', titleanchor)
+            //     .style('fill', 'blue')
+            //     .attr('class', 'titlevalue')
+            //     .text(titletext);
+        }
+
+        public static getvalue(categorical: DataViewCategorical, name: string): number {
+            const item = categorical.values.filter(f => f.source.roles[name]).map(m => m.values[0]);
+
+            if (item && item.length === 1) {
+                return +item[0];
+            }
         }
 
         /**
@@ -67,6 +70,7 @@ module powerbi.extensibility.visual {
 
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
             const item = VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+
             return item;
         }
     }

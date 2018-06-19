@@ -29,13 +29,12 @@
 - Ajout d'une icone de contrôle
 - Revoir le fichier de configuration pbiviz.json à configurer correctement ?
 - Publier sur le store -> quid de la licence / propriétaire
-- Ajout d'une bulle d'aide de description à coté du titre
+- Ajout d'une bulle d'aide de description à coté du titre, commentaire en dessous du contrôle ?
 - Arrondi supperieur ou inferieur, et décimals ?
-- 2 mesures de seuil pour la gestion des VOR
 - Définir les descriptions des propriétés.
 - Définir les noms des priorités pour la localization
-- Configurer les champs de mesure correctement pour 1 seule valeur (min pour la mesure principale), et récupérer la bonne valeur --> cf doc
 - Quid si plusieurs catégory séléctionnés ? Possible ?
+- 0 ne doit pas être une valeur empty
 
 # Idées pour plus tard
 - Option de décalage des animations si plusieurs contrôles ?

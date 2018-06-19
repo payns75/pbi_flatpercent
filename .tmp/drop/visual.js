@@ -591,6 +591,7 @@ var powerbi;
                         this.firstValue = 25;
                         this.secondValue = 75;
                         this.displayOn = "0";
+                        this.multiplier = true;
                     }
                     return VorSettings;
                 }());
@@ -610,17 +611,14 @@ var powerbi;
                 "use strict";
                 var Visual = (function () {
                     function Visual(options) {
-                        this.localizationManager = options.host.createLocalizationManager();
                         this.svg = d3.select(options.element).append('svg');
                         this.gcontainer = this.svg.append('g').classed('percenter', true);
-                        this.flatpercent = new flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercent(this.gcontainer, { top: 35, right: 20, bottom: 20, left: 20 });
+                        this.flatpercent = new flatpercent4542516F697944D4BA75699C96A7D2E6.FlatPercent(this.gcontainer, { top: 5, right: 1, bottom: 1, left: 1 });
                     }
                     Visual.prototype.update = function (options) {
-                        // TODO : Exemple de récupération de localization.
-                        // let legend: string = this.localizationManager.getDisplayName("plop");
                         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-                        var value = +options.dataViews[0].categorical.values[0].values[0];
-                        var titletext = options.dataViews[0].categorical.values[0].source.displayName;
+                        var value = Visual.getvalue(options.dataViews[0].categorical, "measure");
+                        // let titletext = options.dataViews[0].categorical.values[0].source.displayName;
                         this.svg.attr({
                             height: options.viewport.height,
                             width: options.viewport.width
@@ -641,15 +639,21 @@ var powerbi;
                             titlex = options.viewport.width;
                             titleanchor = 'end';
                         }
-                        this.svg.selectAll('.titlevalue').remove();
-                        this.svg.append('g').append('text')
-                            .style('font-size', '5vw')
-                            .attr("x", titlex)
-                            .attr("y", 20)
-                            .attr('text-anchor', titleanchor)
-                            .style('fill', 'blue')
-                            .attr('class', 'titlevalue')
-                            .text(titletext);
+                        // this.svg.selectAll('.titlevalue').remove();
+                        // this.svg.append('g').append('text')
+                        //     .style('font-size', '5vw')
+                        //     .attr("x", titlex)
+                        //     .attr("y", 20)
+                        //     .attr('text-anchor', titleanchor)
+                        //     .style('fill', 'blue')
+                        //     .attr('class', 'titlevalue')
+                        //     .text(titletext);
+                    };
+                    Visual.getvalue = function (categorical, name) {
+                        var item = categorical.values.filter(function (f) { return f.source.roles[name]; }).map(function (m) { return m.values[0]; });
+                        if (item && item.length === 1) {
+                            return +item[0];
+                        }
                     };
                     /**
                      * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
@@ -713,7 +717,7 @@ var powerbi;
                             }
                             var dpath = basearc.selectAll('path')
                                 .data(pie(values));
-                            var pieColor_1 = settings.vor.onPie ? this.getVorColor(settings, value) : settings.pie.defaultColor;
+                            var pieColor_1 = settings.vor.onPie ? this.getVorColor(options.dataViews[0].categorical, settings, value) : settings.pie.defaultColor;
                             var path = dpath
                                 .enter().append('path')
                                 .attr('fill', function (d, i) { return i ? settings.pie.emptyColor : pieColor_1; });
@@ -737,11 +741,11 @@ var powerbi;
                         if (settings.insideValue.show) {
                             var textcolor = settings.insideValue.defaultColor;
                             if (isvalidvalue && settings.vor.onValue) {
-                                textcolor = this.getVorColor(settings, value);
+                                textcolor = this.getVorColor(options.dataViews[0].categorical, settings, value);
                             }
                             var textValue = isvalidvalue ? "" + value + settings.insideValue.suffix : settings.insideValue.nanText;
                             this.gcontainer.append('g').append('text')
-                                .style('font-size', settings.insideValue.fontSize + "vw")
+                                .style('font-size', settings.insideValue.fontSize + "vmin")
                                 .attr("x", init.gWidth / 2)
                                 .attr("y", init.gHeight / 2)
                                 .attr('text-anchor', 'middle')
@@ -751,21 +755,28 @@ var powerbi;
                                 .text(textValue);
                         }
                     };
-                    FlatPercent.prototype.getVorColor = function (settings, value) {
+                    FlatPercent.prototype.getVorColor = function (categorical, settings, value) {
                         if (settings.vor.show) {
-                            if (settings.vor.fixedValues) {
-                                if (value < settings.vor.firstValue) {
-                                    return settings.vor.lowColor;
-                                }
-                                else if (value > settings.vor.firstValue && value < settings.vor.secondValue) {
-                                    return settings.vor.middleColor;
-                                }
-                                else {
-                                    return settings.vor.highColor;
-                                }
+                            var measurevorlow = settings.vor.firstValue;
+                            var measurevormiddle = settings.vor.secondValue;
+                            if (!settings.vor.fixedValues) {
+                                measurevorlow = flatpercent4542516F697944D4BA75699C96A7D2E6.Visual.getvalue(categorical, "measurevorlow");
+                                measurevormiddle = flatpercent4542516F697944D4BA75699C96A7D2E6.Visual.getvalue(categorical, "measurevormiddle");
+                                measurevorlow = settings.vor.multiplier ? measurevorlow * 100 : measurevorlow;
+                                measurevormiddle = settings.vor.multiplier ? measurevormiddle * 100 : measurevormiddle;
+                                measurevorlow = Math.ceil(measurevorlow);
+                                measurevormiddle = Math.ceil(measurevormiddle);
+                                settings.vor.firstValue = measurevorlow;
+                                settings.vor.secondValue = measurevormiddle;
+                            }
+                            if (value < measurevorlow) {
+                                return settings.vor.lowColor;
+                            }
+                            else if (value > measurevorlow && value < measurevormiddle) {
+                                return settings.vor.middleColor;
                             }
                             else {
-                                // TODO : Measures values.
+                                return settings.vor.highColor;
                             }
                         }
                         return settings.insideValue.defaultColor;

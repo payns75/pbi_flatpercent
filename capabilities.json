@@ -16,6 +16,45 @@
             "kind": "Measure"
         }
     ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "measure": {
+                        "min": 1,
+                        "max": 1
+                    },
+                    "measurevorlow": {
+                        "max": 1
+                    },
+                    "measurevormiddle": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "measure"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "measurevorlow"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "measurevormiddle"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
     "objects": {
         "pie": {
             "displayName": "Pie",
@@ -202,42 +241,15 @@
                     "type": {
                         "numeric": true
                     }
+                },
+                "multiplier": {
+                    "displayName": "Measure Multiplier",
+                    "type": {
+                        "bool": true
+                    }
                 }
             }
         }
     },
-    "dataViewMappings": [
-        {
-            "conditions": [
-                {
-                    "measure": {
-                        "min": 1,
-                        "max": 1
-                    }
-                },
-                {
-                    "measurevorlow": {
-                        "max": 1
-                    }
-                },
-                {
-                    "measurevormiddle": {
-                        "max": 1
-                    }
-                }
-            ],
-            "categorical": {
-                "values": {
-                    "select": [
-                        {
-                            "bind": {
-                                "to": "measure"
-                            }
-                        }
-                    ]
-                }
-            }
-        }
-    ],
-    "suppressDefaultTitle": true
+    "suppressDefaultTitle": false
 }
