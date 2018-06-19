@@ -624,21 +624,19 @@ var powerbi;
                             width: options.viewport.width
                         });
                         this.flatpercent.Update(options, this.settings, value);
-                        var titlealign = 1;
-                        var titlex = 0;
-                        var titleanchor = 'middle';
-                        if (titlealign === 0) {
-                            titlex = 0;
-                            titleanchor = 'start';
-                        }
-                        else if (titlealign === 1) {
-                            titlex = options.viewport.width / 2;
-                            titleanchor = 'middle';
-                        }
-                        else if (titlealign === 2) {
-                            titlex = options.viewport.width;
-                            titleanchor = 'end';
-                        }
+                        // let titlealign = 1;
+                        // let titlex = 0;
+                        // let titleanchor = 'middle';
+                        // if (titlealign === 0) {
+                        //     titlex = 0;
+                        //     titleanchor = 'start';
+                        // } else if (titlealign === 1) {
+                        //     titlex = options.viewport.width / 2;
+                        //     titleanchor = 'middle';
+                        // } else if (titlealign === 2) {
+                        //     titlex = options.viewport.width;
+                        //     titleanchor = 'end';
+                        // }
                         // this.svg.selectAll('.titlevalue').remove();
                         // this.svg.append('g').append('text')
                         //     .style('font-size', '5vw')
@@ -700,8 +698,8 @@ var powerbi;
                         if (settings.insideValue.multiplier) {
                             value *= 100;
                         }
-                        value = Math.ceil(value);
-                        var isvalidvalue = value && !isNaN(Number(value.toString())) && value !== Infinity;
+                        value = this.formatValue(settings, value);
+                        var isvalidvalue = this.isvalidvalue(value);
                         if (isvalidvalue && value > 0 && settings.pie.show) {
                             var radius = Math.min(init.gWidth, init.gHeight) / 2;
                             var arc_1 = d3.svg.arc()
@@ -755,6 +753,12 @@ var powerbi;
                                 .text(textValue);
                         }
                     };
+                    FlatPercent.prototype.isvalidvalue = function (value) {
+                        if (value === 0) {
+                            return true;
+                        }
+                        return value && !isNaN(Number(value.toString())) && value !== Infinity;
+                    };
                     FlatPercent.prototype.getVorColor = function (categorical, settings, value) {
                         if (settings.vor.show) {
                             var measurevorlow = settings.vor.firstValue;
@@ -764,8 +768,8 @@ var powerbi;
                                 measurevormiddle = flatpercent4542516F697944D4BA75699C96A7D2E6.Visual.getvalue(categorical, "measurevormiddle");
                                 measurevorlow = settings.vor.multiplier ? measurevorlow * 100 : measurevorlow;
                                 measurevormiddle = settings.vor.multiplier ? measurevormiddle * 100 : measurevormiddle;
-                                measurevorlow = Math.ceil(measurevorlow);
-                                measurevormiddle = Math.ceil(measurevormiddle);
+                                measurevorlow = this.formatValue(settings, measurevorlow);
+                                measurevormiddle = this.formatValue(settings, measurevormiddle);
                                 settings.vor.firstValue = measurevorlow;
                                 settings.vor.secondValue = measurevormiddle;
                             }
@@ -780,6 +784,10 @@ var powerbi;
                             }
                         }
                         return settings.insideValue.defaultColor;
+                    };
+                    FlatPercent.prototype.formatValue = function (settings, value) {
+                        // TODO: Format value by settings.
+                        return Math.ceil(value);
                     };
                     FlatPercent.prototype.initContainer = function (options, settings) {
                         var gHeight = options.viewport.height - this.margin.top - this.margin.bottom;
@@ -804,8 +812,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6 = {
-                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6',
+            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG = {
+                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG',
                 displayName: 'flatpercent',
                 class: 'Visual',
                 version: '1.0.0',

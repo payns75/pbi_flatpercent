@@ -24,21 +24,21 @@ module powerbi.extensibility.visual {
 
             this.flatpercent.Update(options, this.settings, value);
 
-            let titlealign = 1;
-            let titlex = 0;
-            let titleanchor = 'middle';
+            // let titlealign = 1;
+            // let titlex = 0;
+            // let titleanchor = 'middle';
 
-            if (titlealign === 0) {
-                titlex = 0;
-                titleanchor = 'start';
-            } else if (titlealign === 1) {
-                titlex = options.viewport.width / 2;
-                titleanchor = 'middle';
+            // if (titlealign === 0) {
+            //     titlex = 0;
+            //     titleanchor = 'start';
+            // } else if (titlealign === 1) {
+            //     titlex = options.viewport.width / 2;
+            //     titleanchor = 'middle';
 
-            } else if (titlealign === 2) {
-                titlex = options.viewport.width;
-                titleanchor = 'end';
-            }
+            // } else if (titlealign === 2) {
+            //     titlex = options.viewport.width;
+            //     titleanchor = 'end';
+            // }
 
             // this.svg.selectAll('.titlevalue').remove();
             // this.svg.append('g').append('text')

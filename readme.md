@@ -34,7 +34,6 @@
 - Définir les descriptions des propriétés.
 - Définir les noms des priorités pour la localization
 - Quid si plusieurs catégory séléctionnés ? Possible ?
-- 0 ne doit pas être une valeur empty
 
 # Idées pour plus tard
 - Option de décalage des animations si plusieurs contrôles ?

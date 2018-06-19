@@ -19,9 +19,9 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
                 value *= 100;
             }
 
-            value = Math.ceil(value);
+            value = this.formatValue(settings, value);
 
-            let isvalidvalue = value && !isNaN(Number(value.toString())) && value !== Infinity;
+            let isvalidvalue = this.isvalidvalue(value);
 
             if (isvalidvalue && value > 0 && settings.pie.show) {
                 const radius = Math.min(init.gWidth, init.gHeight) / 2;
@@ -91,6 +91,14 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
             }
         }
 
+        private isvalidvalue(value: number): boolean {
+            if (value === 0) {
+                return true;
+            }
+
+            return value && !isNaN(Number(value.toString())) && value !== Infinity;
+        }
+
         private getVorColor(categorical: DataViewCategorical, settings: VisualSettings, value: number): string {
             if (settings.vor.show) {
                 let measurevorlow = settings.vor.firstValue;
@@ -103,10 +111,10 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
                     measurevorlow = settings.vor.multiplier ? measurevorlow * 100 : measurevorlow;
                     measurevormiddle = settings.vor.multiplier ? measurevormiddle * 100 : measurevormiddle;
 
-                    measurevorlow = Math.ceil(measurevorlow);
-                    measurevormiddle = Math.ceil(measurevormiddle);
+                    measurevorlow = this.formatValue(settings, measurevorlow);
+                    measurevormiddle = this.formatValue(settings, measurevormiddle);
 
-                    settings.vor.firstValue =  measurevorlow;
+                    settings.vor.firstValue = measurevorlow;
                     settings.vor.secondValue = measurevormiddle;
                 }
 
@@ -120,6 +128,11 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
             }
 
             return settings.insideValue.defaultColor;
+        }
+
+        private formatValue(settings: VisualSettings, value: number) {
+            // TODO: Format value by settings.
+            return Math.ceil(value);
         }
 
         private initContainer(options: VisualUpdateOptions, settings: VisualSettings): any {
