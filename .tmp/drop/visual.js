@@ -693,8 +693,6 @@ var powerbi;
                     }
                     FlatPercent.prototype.Update = function (options, settings, value) {
                         var init = this.initContainer(options, settings);
-                        // this.gcontainer.selectAll('.arcvalue').remove();
-                        // this.gcontainer.selectAll('.textvalue').remove();
                         this.gcontainer.selectAll('g').remove();
                         if (settings.insideValue.multiplier) {
                             value *= 100;
@@ -813,8 +811,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6 = {
-                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6',
+            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG = {
+                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG',
                 displayName: 'flatpercent',
                 class: 'Visual',
                 version: '1.0.0',

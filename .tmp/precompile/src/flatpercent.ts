@@ -12,8 +12,6 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
 
         public Update(options: VisualUpdateOptions, settings: VisualSettings, value: number) {
             const init = this.initContainer(options, settings);
-            // this.gcontainer.selectAll('.arcvalue').remove();
-            // this.gcontainer.selectAll('.textvalue').remove();
             this.gcontainer.selectAll('g').remove();
 
             if (settings.insideValue.multiplier) {
