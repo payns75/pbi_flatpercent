@@ -12,8 +12,9 @@ module powerbi.extensibility.visual {
 
         public Update(options: VisualUpdateOptions, settings: VisualSettings, value: number) {
             const init = this.initContainer(options, settings);
-            this.gcontainer.selectAll('.arcvalue').remove();
-            this.gcontainer.selectAll('.textvalue').remove();
+            // this.gcontainer.selectAll('.arcvalue').remove();
+            // this.gcontainer.selectAll('.textvalue').remove();
+            this.gcontainer.selectAll('g').remove();
 
             if (settings.insideValue.multiplier) {
                 value *= 100;
@@ -81,8 +82,10 @@ module powerbi.extensibility.visual {
 
                 this.gcontainer.append('g').append('text')
                     .style('font-size', `${settings.insideValue.fontSize}vmin`)
+                    // .style('font-size', `${init.gHeight / 4 * settings.insideValue.fontSize / 10}px`) // Test for ie11
                     .attr("x", init.gWidth / 2)
                     .attr("y", init.gHeight / 2)
+                    // .attr("y", init.gHeight / 2 + (init.gHeight / 4 / 4) * settings.insideValue.fontSize / 10) // Test for ie 11
                     .attr('text-anchor', 'middle')
                     .attr('alignment-baseline', 'middle')
                     .style('fill', textcolor)

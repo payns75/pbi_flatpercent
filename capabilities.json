@@ -60,7 +60,6 @@
             "displayName": "Pie",
             "properties": {
                 "show": {
-                    "displayName": "Pie Property Switch",
                     "type": {
                         "bool": true
                     }
@@ -97,7 +96,6 @@
             "displayName": "Inside Value",
             "properties": {
                 "show": {
-                    "displayName": "InsideValue Property Switch",
                     "type": {
                         "bool": true
                     }
@@ -145,7 +143,6 @@
             "displayName": "Animation",
             "properties": {
                 "show": {
-                    "displayName": "Animation Property Switch",
                     "type": {
                         "bool": true
                     }

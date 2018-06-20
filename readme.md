@@ -18,7 +18,7 @@
 ## Chrome debug
 - Activer le certificat pour le localhost : chrome://flags/#allow-insecure-localhost
 - Installer l'extension chrome
-- /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+- /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrx@ome --remote-debugging-port=9222
 - https://powerbi.microsoft.com/fr-fr/
 
 # TODOS
@@ -39,6 +39,9 @@
 - Option de décalage des animations si plusieurs contrôles ?
 - Police text roboto  ? --> Utiiliser des fonts externes ? Les inclures dans le package.
 - Mettre le suffixe % plus petit que la valeur ?
+- Ne plus utiliser d3js pour desquestions de perf
+- Regarder l'utilisation des canvas
+- Utilisation des thèmes personalisés https://docs.microsoft.com/fr-fr/power-bi/desktop-report-themes
 
 # Questions
 
@@ -50,6 +53,7 @@
 - Voir l'utilisation des tooltips dans le capabilities.json
 - Pour les paramètres voir comment mettre des valeur min/max, listes déroulantes, descriptions etc
 - La localisation en-US n'a pas d'intéret car cela doit rester la valeur par défaut -> bien configurer capabilities.json pour cela.
+- Regarder l'utilité du fichier dependencies.json
 
 # Liens utiles
 - https://tsmatz.wordpress.com/2016/09/27/power-bi-custom-visuals-programming/

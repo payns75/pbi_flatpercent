@@ -693,8 +693,9 @@ var powerbi;
                     }
                     FlatPercent.prototype.Update = function (options, settings, value) {
                         var init = this.initContainer(options, settings);
-                        this.gcontainer.selectAll('.arcvalue').remove();
-                        this.gcontainer.selectAll('.textvalue').remove();
+                        // this.gcontainer.selectAll('.arcvalue').remove();
+                        // this.gcontainer.selectAll('.textvalue').remove();
+                        this.gcontainer.selectAll('g').remove();
                         if (settings.insideValue.multiplier) {
                             value *= 100;
                         }
