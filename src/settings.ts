@@ -33,6 +33,7 @@ module powerbi.extensibility.visual {
   export class InsideValueSettings {
     public show: boolean = true;
     public defaultColor: string = "#E91E63";
+    public fontFamily: string = "helvetica, arial, sans-serif";
     public fontSize: number = 13;
     public multiplier: boolean = true;
     public nanText: string = "Empty";

@@ -33,6 +33,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
   export class InsideValueSettings {
     public show: boolean = true;
     public defaultColor: string = "#E91E63";
+    public fontFamily: string = "helvetica, arial, sans-serif";
     public fontSize: number = 13;
     public multiplier: boolean = true;
     public nanText: string = "Empty";

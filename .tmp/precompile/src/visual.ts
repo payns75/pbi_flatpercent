@@ -52,6 +52,7 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
         }
 
         public static getvalue(categorical: DataViewCategorical, name: string): number {
+            console.log(categorical.values);
             const item = categorical.values.filter(f => f.source.roles[name]).map(m => m.values[0]);
 
             if (item && item.length === 1) {

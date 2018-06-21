@@ -571,6 +571,7 @@ var powerbi;
                     function InsideValueSettings() {
                         this.show = true;
                         this.defaultColor = "#E91E63";
+                        this.fontFamily = "helvetica, arial, sans-serif";
                         this.fontSize = 13;
                         this.multiplier = true;
                         this.nanText = "Empty";
@@ -648,6 +649,7 @@ var powerbi;
                         //     .text(titletext);
                     };
                     Visual.getvalue = function (categorical, name) {
+                        console.log(categorical.values);
                         var item = categorical.values.filter(function (f) { return f.source.roles[name]; }).map(function (m) { return m.values[0]; });
                         if (item && item.length === 1) {
                             return +item[0];
@@ -742,6 +744,7 @@ var powerbi;
                             }
                             var textValue = isvalidvalue ? "" + value + settings.insideValue.suffix : settings.insideValue.nanText;
                             this.gcontainer.append('g').append('text')
+                                .style('font-family', settings.insideValue.fontFamily)
                                 .style('font-size', settings.insideValue.fontSize + "vmin")
                                 .attr("x", init.gWidth / 2)
                                 .attr("y", init.gHeight / 2)
@@ -811,8 +814,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG = {
-                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG',
+            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6 = {
+                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6',
                 displayName: 'flatpercent',
                 class: 'Visual',
                 version: '1.0.0',

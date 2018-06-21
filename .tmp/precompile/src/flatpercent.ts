@@ -79,16 +79,17 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
                 let textValue = isvalidvalue ? `${value}${settings.insideValue.suffix}` : settings.insideValue.nanText;
 
                 this.gcontainer.append('g').append('text')
+                    .style('font-family', settings.insideValue.fontFamily)
                     .style('font-size', `${settings.insideValue.fontSize}vmin`)
-                    // .style('font-size', `${init.gHeight / 4 * settings.insideValue.fontSize / 10}px`) // Test for ie11
-                    .attr("x", init.gWidth / 2)
-                    .attr("y", init.gHeight / 2)
-                    // .attr("y", init.gHeight / 2 + (init.gHeight / 4 / 4) * settings.insideValue.fontSize / 10) // Test for ie 11
-                    .attr('text-anchor', 'middle')
-                    .attr('alignment-baseline', 'middle')
-                    .style('fill', textcolor)
-                    .attr('class', 'textvalue')
-                    .text(textValue);
+                        // .style('font-size', `${init.gHeight / 4 * settings.insideValue.fontSize / 10}px`) // Test for ie11
+                        .attr("x", init.gWidth / 2)
+                        .attr("y", init.gHeight / 2)
+                        // .attr("y", init.gHeight / 2 + (init.gHeight / 4 / 4) * settings.insideValue.fontSize / 10) // Test for ie 11
+                        .attr('text-anchor', 'middle')
+                        .attr('alignment-baseline', 'middle')
+                        .style('fill', textcolor)
+                        .attr('class', 'textvalue')
+                        .text(textValue);
             }
         }
 
