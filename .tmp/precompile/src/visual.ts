@@ -74,10 +74,10 @@ module powerbi.extensibility.visual.flatpercent4542516F697944D4BA75699C96A7D2E6 
             const elem = (item as any).instances[0];
 
 
-            if (elem.objectName === "pie") {
-                elem.properties["plop"] = 12;
-                console.log(elem);
-            }
+            // if (elem.objectName === "pie") {
+            //     elem.properties["plop"] = 12;
+            //     console.log(elem);
+            // }
 
             return item;
         }

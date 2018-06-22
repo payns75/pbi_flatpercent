@@ -665,10 +665,10 @@ var powerbi;
                     Visual.prototype.enumerateObjectInstances = function (options) {
                         var item = flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.getDefault(), options);
                         var elem = item.instances[0];
-                        if (elem.objectName === "pie") {
-                            elem.properties["plop"] = 12;
-                            console.log(elem);
-                        }
+                        // if (elem.objectName === "pie") {
+                        //     elem.properties["plop"] = 12;
+                        //     console.log(elem);
+                        // }
                         return item;
                     };
                     return Visual;

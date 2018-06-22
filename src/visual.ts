@@ -74,10 +74,10 @@ module powerbi.extensibility.visual {
             const elem = (item as any).instances[0];
 
 
-            if (elem.objectName === "pie") {
-                elem.properties["plop"] = 12;
-                console.log(elem);
-            }
+            // if (elem.objectName === "pie") {
+            //     elem.properties["plop"] = 12;
+            //     console.log(elem);
+            // }
 
             return item;
         }
