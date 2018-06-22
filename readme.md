@@ -43,6 +43,8 @@
 - Utilisation des thèmes personalisés https://docs.microsoft.com/fr-fr/power-bi/desktop-report-themes
 
 # Questions
+- Comment ajouter dans les propriétés un slider avec des ranges
+- Récupérer les couleurs par défaut des mesures/groupes sélectionnés.
 - Comment récupérer les paramètres par défaut des options comme le title, le border etc -> Impossible pour le moment
 - Sur les options, comment cacher/désactiver des options en fonctions d'autres options -> Faire un test avec enumerateObjectInstances du visual
 - Comment définir des valeurs min/max

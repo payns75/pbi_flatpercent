@@ -52,7 +52,6 @@ module powerbi.extensibility.visual {
         }
 
         public static getvalue(categorical: DataViewCategorical, name: string): number {
-            console.log(categorical.values);
             const item = categorical.values.filter(f => f.source.roles[name]).map(m => m.values[0]);
 
             if (item && item.length === 1) {
@@ -71,6 +70,14 @@ module powerbi.extensibility.visual {
 
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
             const item = VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+
+            const elem = (item as any).instances[0];
+
+
+            if (elem.objectName === "pie") {
+                elem.properties["plop"] = 12;
+                console.log(elem);
+            }
 
             return item;
         }

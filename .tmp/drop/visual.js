@@ -649,7 +649,6 @@ var powerbi;
                         //     .text(titletext);
                     };
                     Visual.getvalue = function (categorical, name) {
-                        console.log(categorical.values);
                         var item = categorical.values.filter(function (f) { return f.source.roles[name]; }).map(function (m) { return m.values[0]; });
                         if (item && item.length === 1) {
                             return +item[0];
@@ -665,6 +664,11 @@ var powerbi;
                     };
                     Visual.prototype.enumerateObjectInstances = function (options) {
                         var item = flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.enumerateObjectInstances(this.settings || flatpercent4542516F697944D4BA75699C96A7D2E6.VisualSettings.getDefault(), options);
+                        var elem = item.instances[0];
+                        if (elem.objectName === "pie") {
+                            elem.properties["plop"] = 12;
+                            console.log(elem);
+                        }
                         return item;
                     };
                     return Visual;
@@ -814,8 +818,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6 = {
-                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6',
+            plugins.flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG = {
+                name: 'flatpercent4542516F697944D4BA75699C96A7D2E6_DEBUG',
                 displayName: 'flatpercent',
                 class: 'Visual',
                 version: '1.0.0',

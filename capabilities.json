@@ -58,6 +58,9 @@
     "objects": {
         "pie": {
             "displayName": "Pie",
+            "description": "Formating the outside circle",
+            "displayNameKey": "pie_title_name",
+            "descriptionKey": "pie_title_description",
             "properties": {
                 "show": {
                     "type": {
